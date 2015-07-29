@@ -9,7 +9,7 @@ My Name is Ron, and I own a [Photo Lab in San Diego called ProLabPrints.com/ Fro
 
 If you want to join in, all you need is a GitHub account (free) and then you should be able to create an issue, or reply to an existing one.
 
-"Issues" are on the right side - the little (!). https://github.com/rdyar/LabWOES/issues
+"Issues" are on the right side - the little (!). [Here is the link to them](https://github.com/rdyar/LabWOES/issues)
 
 
 
