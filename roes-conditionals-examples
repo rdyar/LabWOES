@@ -1,0 +1,83 @@
+The idea of these conditionals is to end up with a value of TRUE or evaluates to TRUE ("YES"=="YES", "FineArtPrints"=="FineArtPrints", etc..)
+-------
+[SET_MACRO(PREFERRED_QUEUE_MATCH,"NO")][\]
+[BEGIN_ITEM_LIST][\]
+	[SET_MACRO_FROM_ATTRIBUTE( PREFERRED_QUEUE_NAME, preferredqueue)][\]
+		[BEGIN_IF("<PREFERRED_QUEUE_NAME>" == "FineArtPrints")][\]
+			[SET_MACRO( PREFERRED_QUEUE_MATCH, "Yes")][\]
+		[END_IF][\]
+[END_ITEM_LIST][\]
+"[PREFERRED_QUEUE_MATCH]"=="Yes"
+
+-------
+detect products using preferred queue.  single queue match.
+[BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE( TEST, preferredqueue)][END_ITEM_LIST]"[TEST]"=="FineArtPrints"
+
+-------
+[SET_MACRO( ZBE_PRINTING,"No")][BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE(PREFERRED_QUEUE,preferredqueue)][\]
+[BEGIN_IF(("<PREFERRED_QUEUE>"=="WS_Print_Lustre")||("<PREFERRED_QUEUE>"=="WS_Print_Glossy")||
+("<PREFERRED_QUEUE>"=="WS_Print_Metallic"))][SET_MACRO( ZBE_PRINTING,"Yes")][END_IF][\][END_ITEM_LIST]"[ZBE_PRINTING]"=="Yes"
+
+[SET_MACRO( ZBE_PRINTING,"No")][BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE( PREFERRED_QUEUE,preferredqueue)][\]
+[BEGIN_IF(("<PREFERRED_QUEUE>"=="Workstream Color Correction")|| ("<PREFERRED_QUEUE>"=="WS_Print_Lustre")||("<PREFERRED_QUEUE>"=="WS_Print_Glossy")||("<PREFERRED_QUEUE>"=="WS_Print_Metallic"))][SET_MACRO( ZBE_PRINTING,"Yes")][END_IF][END_ITEM_LIST]"[ZBE_PRINTING]"=="Yes"
+
+-------
+detect products using preferredqueue.  select any of the IFs depending on the queue you wish to test for.
+[SET_MACRO( ZBE_LUSTRE,"No")][BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE(PREFERRED_QUEUE,preferredqueue)][\]
+[BEGIN_IF(("<PREFERRED_QUEUE>"=="WS_Print_Lustre"))][SET_MACRO( ZBE_LUSTRE,"Yes")][END_IF][\][END_ITEM_LIST]"[ZBE_LUSTRE]"=="Yes"
+
+[SET_MACRO( ZBE_GLOSSY,"No")][BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE(PREFERRED_QUEUE,preferredqueue)][\]
+[BEGIN_IF(("<PREFERRED_QUEUE>"=="WS_Print_Glossy"))][SET_MACRO( ZBE_GLOSSY,"Yes")][END_IF][\][END_ITEM_LIST]"[ZBE_GLOSSY]"=="Yes"
+
+[SET_MACRO( ZBE_METALLIC,"No")][BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE(PREFERRED_QUEUE,preferredqueue)][\]
+[BEGIN_IF(("<PREFERRED_QUEUE>"=="WS_Print_Metallic"))][SET_MACRO( ZBE_METALLIC,"Yes")][END_IF][\][END_ITEM_LIST]"[ZBE_METALLIC]"=="Yes"
+
+-------
+detect products using preferredqueue value, testing for products from another workflow.  if there are, bypass this workflow.
+[BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE(PREFERRED_QUEUE,preferredqueue)][\]
+[BEGIN_IF(("<PREFERRED_QUEUE>"=="WS_Print_Lustre")||("<PREFERRED_QUEUE>"=="WS_Print_Glossy")||("<PREFERRED_QUEUE>"=="WS_Print_Metallic"))][SET_MACRO( ZBE_PRINTING,"Yes")][END_IF][\]
+[BEGIN_IF("<PREFERRED_QUEUE>"=="FineArtPrints")]"[ZBE_PRINTING]"=="No"[END_IF][END_ITEM_LIST]"[ZBE_PRINTING]"=="Yes"
+
+-------
+detect color correction using order option id
+[SET_MACRO(COLOR_CORRECT,"NO")][BEGIN_ORDER_OPTIONS_LIST][BEGIN_IF (("<ORDER_OPTION_ID>"=="CC"))][SET_MACRO(COLOR_CORRECT,"YES")][END_IF][\]
+[END_ORDER_OPTIONS_LIST]"[COLOR_CORRECT]" == "YES"
+
+-------
+detect color correction using order option id and catalog value combination
+[SET_MACRO(COLOR_CORRECT,"NO")][BEGIN_ORDER_OPTIONS_LIST][BEGIN_IF (("<ORDER_OPTION_ID>"=="CC") && ("[CATALOG]" == "ZBE Prints"))][SET_MACRO(COLOR_CORRECT,"YES")][END_IF][\]
+[END_ORDER_OPTIONS_LIST]"[COLOR_CORRECT]" == "YES"
+
+-------
+detect products using preferredqueue value
+[SET_MACRO( ZBE_PRINTING,"No")][BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE(PREFERRED_QUEUE,preferredqueue)][\]
+[BEGIN_IF(("<PREFERRED_QUEUE>"=="WS_Print_Lustre")||("<PREFERRED_QUEUE>"=="WS_Print_Glossy")|| ("<PREFERRED_QUEUE>"=="WS_Print_Metallic"))][SET_MACRO( ZBE_PRINTING,"Yes")][END_IF][\][END_ITEM_LIST]"[ZBE_PRINTING]"=="Yes"
+
+-------
+detect products using a specific catalog
+"[CATALOG]"=="Photographic Prints"
+
+-------
+detect CD using order option id
+[SET_MACRO(CREATE_CD,"NO")][BEGIN_ORDER_OPTIONS_LIST][BEGIN_IF (("<ORDER_OPTION_ID>"=="HRCD"))][SET_MACRO(CREATE_CD,"YES")][END_IF][\]
+[END_ORDER_OPTIONS_LIST]"[CREATE_CD]" == "YES"
+
+-------
+detect ORB orders using the presence of an ORB vendor id
+"[ORB_VENDOR_ID]" != ""
+
+-------
+detect products using a custom attribute placed at the item level of the template
+[BEGIN_ITEM_LIST][SET_MACRO_FROM_ATTRIBUTE( PAPERTYPE, papertype)][END_ITEM_LIST]"[PAPERTYPE]"=="Glossy"
+
+-------
+detect retouching using image option id (single)
+[SET_MACRO(RETOUCHING,"NO")][BEGIN_IMAGE_OPTIONS_LIST][BEGIN_IF (("<IMAGE_OPTION_ID>"=="NR"))][SET_MACRO(RETOUCHING,"YES")][END_IF][END_IMAGE_OPTIONS_LIST]"[RETOUCHING]" == "YES"
+
+-------
+detect retouching using image option id (many)
+[SET_MACRO(RETOUCHING,"NO")][BEGIN_IMAGE_OPTIONS_LIST][BEGIN_IF (("<IMAGE_OPTION_ID>"=="NR")||("<IMAGE_OPTION_ID>"=="HR")||("<IMAGE_OPTION_ID>"=="AHE")||("<IMAGE_OPTION_ID>"=="GG")||("<IMAGE_OPTION_ID>"=="ES")||("<IMAGE_OPTION_ID>"=="EH")||("<IMAGE_OPTION_ID>"=="TE")||("<IMAGE_OPTION_ID>"=="RBS")||("<IMAGE_OPTION_ID>"=="RBC")||("<IMAGE_OPTION_ID>"=="SHR")||("<IMAGE_OPTION_ID>"=="HS")||("<IMAGE_OPTION_ID>"=="DSR")||("<IMAGE_OPTION_ID>"=="SC")||("<IMAGE_OPTION_ID>"=="NB")||("<IMAGE_OPTION_ID>"=="RE")||("<IMAGE_OPTION_ID>"=="SDB")||("<IMAGE_OPTION_ID>"=="CDB") )][SET_MACRO(RETOUCHING,"YES")][END_IF][END_IMAGE_OPTIONS_LIST]"[RETOUCHING]" == "YES"
+
+-------
+[BEGIN_UNIT_LIST][SET_MACRO_FROM_ATTRIBUTE(GROUP,template_group)][GROUP][END_UNIT_LIST]
+
