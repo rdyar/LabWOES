@@ -1,5 +1,8 @@
 The idea of these conditionals is to end up with a value of TRUE or evaluates to TRUE ("YES"=="YES", "FineArtPrints"=="FineArtPrints", etc..)
 -------
+lab roes launch label
+"[LAB_LABEL]" =="Fromex Photo Lab Test ROES"
+------
 [SET_MACRO(PREFERRED_QUEUE_MATCH,"NO")][\]
 [BEGIN_ITEM_LIST][\]
 	[SET_MACRO_FROM_ATTRIBUTE( PREFERRED_QUEUE_NAME, preferredqueue)][\]
