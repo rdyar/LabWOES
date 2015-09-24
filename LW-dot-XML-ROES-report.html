@@ -1,0 +1,163 @@
+[//\]----------------------------------------------------------------
+[//\] The Macros below help simplify the code.
+[//\] ACCOUNT_NAME allows you to have a business name or 'last name, first name' if there is no business name as the main Account Name in LW
+[//\] SHIPTO_NAME does the same thing but for the ship to name (business name or first and last name)
+[//\] SHIPTO_CONTACT sets the contact name, if there was a business name 
+[//\]
+[//\] KEEP IN MIND THAT EACH LAB MAY CALL THINGS BY DIFFERENT NAMES - LIKE OURS USES cUSTOMER_NAME AS THE LAST NAME
+[//\]----------------------------------------------------------------
+[//\]Check if Business name exists. if so use it as account name[\]
+[SET_MACRO( ACCOUNT_NAME, "<CUSTOMER_NAME>, <CUSTOMER_FIRSTNAME>")][\]
+        [BEGIN_IF("<CUSTOMER_BUSINESS>" != "")][\]
+        [SET_MACRO( ACCOUNT_NAME, "<CUSTOMER_BUSINESS>")][\]
+    [END_IF][\]
+[//\]Check if Business name exists. if so use it as ship to name[\]
+[SET_MACRO( SHIPTO_NAME, "<CUSTOMER_FIRSTNAME> <CUSTOMER_NAME>")][\]
+        [BEGIN_IF("<CUSTOMER_BUSINESS>" != "")][\]
+        [SET_MACRO( SHIPTO_NAME, "<CUSTOMER_BUSINESS>")][\]
+    [END_IF][\]
+[//\]Check if Business name exists. if so use shipto contact as first name last name otherwise shipto_contact is empty (only for non dropship)[\]
+[SET_MACRO( SHIPTO_CONTACT, "")][\]
+        [BEGIN_IF("<CUSTOMER_BUSINESS>" != "")][\]
+        [SET_MACRO( SHIPTO_CONTACT, "<CUSTOMER_FIRSTNAME> <CUSTOMER_NAME>")][\]
+    [END_IF][\]   
+[//\]----------------------------------------------------------------
+[//\] If the lab is using an order option to collect a customer
+[//\] reference or special instructions, set the macros below to the
+[//\] ids of the order options so we can handle them differently
+[//\]----------------------------------------------------------------
+[//\] the 2 below are used to not render the jobref and instructions in the options section below - used in an IF section. This way LW won't look for them and throw an error - item doesn't exist.[\]
+[SET_MACRO( CUSTOMER_REFERENCE_OPTION_ID, "jobref")][\]
+[SET_MACRO( SPECIAL_INSTRUCTIONS_OPTION_ID, "instructions")][\]
+[//\]
+<?xml version="1.0" encoding="UTF-8"?>
+<LLXML ID="Lab Order">
+	<Creator>ROES</Creator>
+	<Version>ROES XML Output 2.0b8</Version>
+	<Orders>
+		<Order>
+			<OrderID>[LAB_ORDER_ID]</OrderID>
+			<OrderHeader>
+				<CustomerID>[CUSTOMER_NUMBER]</CustomerID>
+				<OrderTotal>[TOTAL_PRICE]</OrderTotal>
+				<OrderNotes> [PAYMENT_METHOD], [SPECIAL_INSTRUCTIONS][SELECTED_OPTION_TEXT_BY_ID(instructions)]</OrderNotes>
+				<OrderReference>[SELECTED_OPTION_TEXT_BY_ID(jobref)]</OrderReference>
+				<Customer>
+					<CustomerID>[CUSTOMER_NUMBER]</CustomerID>
+					<AccountName>[ACCOUNT_NAME]</AccountName>
+					<Phone1>[CUSTOMER_PHONE]</Phone1>
+				    <Email>[CUSTOMER_EMAIL]</Email>
+				    <CustomerType>[BEGIN_IF("<LAB_LABEL>"=="ProLabPrints ROES")]Fromex[END_IF][BEGIN_IF("<LAB_LABEL>"=="Qprints.com ROES")]Qprints[END_IF][BEGIN_IF("<LAB_LABEL>"=="Fromex Photo Lab Test ROES")]Fromex[END_IF]</CustomerType>
+				</Customer>
+				<Billing>
+					<CustomerName>[CUSTOMER_NAME], [CUSTOMER_FIRSTNAME]</CustomerName>
+					<Address1>[CUSTOMER_ADDRESS]</Address1>
+					<Address2>[CUSTOMER_ADDRESS2]</Address2>
+					<City>[CUSTOMER_CITY]</City>
+					<State>[CUSTOMER_STATE]</State>
+					<PostalCode>[CUSTOMER_ZIP]</PostalCode>
+					<Country>[CUSTOMER_COUNTRY]</Country>
+					<Phone>[CUSTOMER_PHONE]</Phone>
+				</Billing>
+				<Shipping>
+					<DropShip>[BEGIN_IF(("<SHIPPING_ID>" != "Dropship") && ("<SHIPPING_ID>" != "dropshipq"))]No[END_IF][BEGIN_IF(("<SHIPPING_ID>" == "Dropship")||("<SHIPPING_ID>" == "dropshipq"))]Yes[END_IF]</DropShip>
+					[//\]shipping - check to see if it is standard ship. If it is, use account info. There is no 'IF' for the dropship part, the SHIP_ADDRESS can just be there at the end- if it wasn't dropship it won't show.[\]
+					[//\]Shipping - CustomerName uses a macro from the top to handle business names and human names. Same for ShipTo Contact.
+					[//\] Need to be careful with CustomerName as it is a flag to create a shipping record, so it needs to be blank if it is lab pickup. Same for address1 and 2.[\]
+					<CustomerName>[BEGIN_IF(("<SHIPPING_ID>" == "Standard")||("<SHIPPING_ID>" == "Express")||("<SHIPPING_ID>" == "expressq")||("<SHIPPING_ID>" == "standardq"))][SHIPTO_NAME][END_IF][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_NAME,ship_to_name)][SHIP_NAME]</CustomerName>
+					<contact>[BEGIN_IF(("<SHIPPING_ID>" != "Dropship") && ("<SHIPPING_ID>" != "dropshipq"))][SHIPTO_CONTACT][END_IF][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_ATTENTION,ship_to_attention)][SHIP_ATTENTION]</contact>
+					<Address1>[BEGIN_IF(("<SHIPPING_ID>" == "Standard")||("<SHIPPING_ID>" == "Express")||("<SHIPPING_ID>" == "expressq")||("<SHIPPING_ID>" == "standardq"))][CUSTOMER_ADDRESS][END_IF][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_ADDRESS,ship_to_address)][SHIP_ADDRESS]</Address1>
+					<Address2>[BEGIN_IF(("<SHIPPING_ID>" == "Standard")||("<SHIPPING_ID>" == "Express")||("<SHIPPING_ID>" == "expressq")||("<SHIPPING_ID>" == "standardq"))][CUSTOMER_ADDRESS2][END_IF][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_ADDRESS2,ship_to_address2)][SHIP_ADDRESS2]</Address2>
+					<City>[BEGIN_IF(("<SHIPPING_ID>" == "Standard")||("<SHIPPING_ID>" == "Express")||("<SHIPPING_ID>" == "expressq")||("<SHIPPING_ID>" == "standardq"))][CUSTOMER_CITY][END_IF][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_CITY,ship_to_city)][SHIP_CITY]</City>
+					<State>[BEGIN_IF(("<SHIPPING_ID>" == "Standard")||("<SHIPPING_ID>" == "Express")||("<SHIPPING_ID>" == "expressq")||("<SHIPPING_ID>" == "standardq"))][CUSTOMER_STATE][END_IF][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_STATE,ship_to_state)][SHIP_STATE]</State>
+					<PostalCode>[BEGIN_IF(("<SHIPPING_ID>" == "Standard")||("<SHIPPING_ID>" == "Express")||("<SHIPPING_ID>" == "expressq")||("<SHIPPING_ID>" == "standardq"))][CUSTOMER_ZIP][END_IF][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_ZIP,ship_to_zip)][SHIP_ZIP]</PostalCode>
+					<Country>[CUSTOMER_COUNTRY]</Country>
+					<Phone1>[CUSTOMER_PHONE]</Phone1>
+					<ShippingMethod>[SHIPPING_ID]</ShippingMethod>
+					<ShippingPrice>[SHIPPING_TOTAL_PRICE]</ShippingPrice>
+				</Shipping>
+				[//\]The payment section needs an IF to detect if it is credit card or cod - the payment section is different for cod than it is for cc[\]
+				[BEGIN_IF("<PAYMENT_METHOD>" == "Credit Card")][\]
+				<Payment>
+					[//\] Only the cc is encrypted. If LabWorks is processing the card then you only need enc type, cardnum and cardexp.[\]
+					<EncryptionType>ROES</EncryptionType>
+					<CardNum>[SET_MACRO_FROM_MACRO_WITH_ENCRYPTION(ENCRYPTED_CREDIT_CARD_NUMBER,PAYMENT_CREDIT_CARD_NUMBER)][ENCRYPTED_CREDIT_CARD_NUMBER][\]</CardNum>
+					<CardExp>[PAYMENT_CREDIT_CARD_EXP]</CardExp>
+					[//\]<CardCCID>[PAYMENT_CREDIT_CARD_CVV]</CardCCID>
+				</Payment>
+				 [END_IF][\]
+				 [BEGIN_IF("<PAYMENT_METHOD>" == "cardonfile")][\]
+				 <Payment/>
+				  [END_IF][\]
+			</OrderHeader>
+			<OrderItems>[\]
+			[SET_MACRO( OI_SEQUENCE, 1 )][\]
+			[BEGIN_ORDER_OPTIONS_LIST][\]
+			[//\]if statement only run if the option is not 'instructions' or 'jobref' set in the macros at the top. Would throw an error without it[\] 
+				[BEGIN_IF( ("<CUSTOMER_REFERENCE_OPTION_ID>" != "<ORDER_OPTION_ID>") && ("<SPECIAL_INSTRUCTIONS_OPTION_ID>" != "<ORDER_OPTION_ID>") )]
+				<OrderItemInfo>
+					<OISequence>[OI_SEQUENCE(4.0)]</OISequence>
+					<ItemCode>[ORDER_OPTION_ID]</ItemCode>
+					<ServiceType/>
+					<Description>[ORDER_OPTION_LABEL]</Description>
+					<FDescription/>
+					<Price>[ORDER_OPTION_PRICE]</Price>
+					[SET_MACRO( THE_QTY, "1")][\]
+					[BEGIN_IF( "<ORDER_OPTION_QUANTITY>" != "")][\]
+						[SET_MACRO( THE_QTY, "<ORDER_OPTION_QUANTITY>")][\]
+					[END_IF][\]
+					<Qty>1</Qty>
+					<Each>[THE_QTY]</Each>
+					<Instructions/>
+				</OrderItemInfo>
+				[SET_MACRO( OI_SEQUENCE, <OI_SEQUENCE> + 1 )][\]
+				[END_IF][\]
+			[END_ORDER_OPTIONS_LIST][\]
+			[BEGIN_ITEM_LIST][\]
+			[//\] non book products use UNIT_xyz[\]
+		[BEGIN_IF("<ITEM_CONTAINER_TYPE>" != "book")]
+			[BEGIN_UNIT_LIST]
+				<OrderItemInfo>
+				 <OISequence>[OI_SEQUENCE(4.0)]</OISequence>
+				 <ItemCode>[UNIT_PRODUCT_CODE]</ItemCode>
+				 <ServiceType/>
+				 <Description>[UNIT_PRODUCT_DESCRIPTION]</Description>
+				 <Price>[UNIT_TOTAL_PRICE]</Price>
+				 <Qty>1</Qty>
+				 <Each>[UNIT_QUANTITY]</Each>
+				 <Instructions/>[BEGIN_UNIT_OPTIONS_LIST]
+				 <ItemCode>[UNIT_OPTION_ID]</ItemCode>
+				 <Description>[UNIT_OPTION_LABEL]</Description>
+				 <Price>[UNIT_OPTION_PRICE]</Price>
+				 <Qty>[UNIT_QUANTITY]</Qty>
+				 <Each>1</Each>[\]
+				[END_UNIT_OPTIONS_LIST]
+				</OrderItemInfo>
+				[SET_MACRO( OI_SEQUENCE, <OI_SEQUENCE> + 1 )][\]
+				[END_UNIT_LIST]
+	 	[END_IF][\]
+	 	[//\]book items use ITEM_xyz[\]
+	 	[BEGIN_IF("<ITEM_CONTAINER_TYPE>" == "book")]
+			<OrderItemInfo>
+				 <OISequence>[OI_SEQUENCE(4.0)]</OISequence>
+				 <ItemCode>[ITEM_PRODUCT_CODE]</ItemCode>
+				 <ServiceType/>
+				 <Description>[ITEM_PRODUCT_DESCRIPTION]</Description>
+				 <Price>[ITEM_TOTAL_PRICE]</Price>
+				 <Qty>1</Qty>
+				 <Each>[ITEM_QUANTITY]</Each>
+				 <Instructions/>[BEGIN_ITEM_OPTIONS_LIST]
+				 <ItemCode>[ITEM_OPTION_ID]</ItemCode>
+				 <Description>[ITEM_OPTION_LABEL]</Description>
+				 <Price>[ITEM_OPTION_PRICE]</Price>
+				 <Qty>1</Qty>
+				 <Each>[ITEM_QUANTITY]</Each>[\]
+				[END_ITEM_OPTIONS_LIST]
+				</OrderItemInfo>
+				[SET_MACRO( OI_SEQUENCE, <OI_SEQUENCE> + 1 )][\]
+	 	[END_IF]
+	 	[END_ITEM_LIST][\]
+			</OrderItems>
+		</Order>
+	</Orders>
+</LLXML>
