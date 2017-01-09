@@ -5,39 +5,39 @@ permalink: /calculator/
 layout: default
 ---
 <div class="calculator">
-	<table class="calc-table-inputs">
+	<table class="calc-table-inputs" id="inputs">
 		<tr>
-			<td id="mytd" class="calc-label"><br>Paper:</td>
-			<td id="mytd"><span>Paper Width (inches)</span><br><input type="text" id="paperWidth"></td>
-			<td id="mytd"><span>Paper Length (feet)</span><br><input type="text" id="paperCost"></td>
-			<td id="mytd"><span>Cost per Roll</span><br><input type="text" id="paperCost"></td>
+			<td class="calc-label"><br>Paper:</td>
+			<td><span>Paper Width (inches)</span><br><input type="number" id="paperWidth"></td>
+			<td><span>Paper Length (feet)</span><br><input type="number" id="paperLength"></td>
+			<td><span>Cost per Roll</span><br><input type="number" id="paperCost"></td>
 		</tr>
 		<tr class="info">
-			<td id="mytd" class="calc-label"></td>
-			<td id="mytd"><span>Cost per Box</span></td>
-			<td id="mytd"><span>Liters per Box</span></td>
-			<td id="mytd"><span>Replenishment Rate (ml/ft)</span></td>
+			<td class="calc-label"></td>
+			<td><span>Cost per Box</span></td>
+			<td><span>Liters per Box</span></td>
+			<td><span>Replenishment Rate (ml/ft)</span></td>
 		</tr>
 		<tr>
-			<td id="mytd" class="calc-label">Developer:</td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
+			<td class="calc-label">Developer:</td>
+			<td><input type="number" id="devCostBox"></td>
+			<td><input type="number" id="devLitersBox"></td>
+			<td><input type="number" id="devRepRate"></td>
 		</tr>
 		<tr>
-			<td id="mytd" class="calc-label">Bleach Fix:</td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
+			<td class="calc-label">Bleach Fix:</td>
+			<td><input type="number" id="blxCostBox"></td>
+			<td><input type="number" id="blxLitersBox"></td>
+			<td><input type="number" id="blxRepRate"></td>
 		</tr>
 		<tr>
-			<td id="mytd" class="calc-label">Stabilizer:</td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
-			<td id="mytd"><input type="text" id="paperCost"></td>
+			<td class="calc-label">Stabilizer:</td>
+			<td><input type="number" id="stabCostBox"></td>
+			<td><input type="number" id="stabLitersBox"></td>
+			<td><input type="number" id="stabRepRate"></td>
 		</tr>
 	</table>
-	<p class="sq">Square Feet Per Roll: <span class="sq-span" id="sfpr">25</span> Square Inches Per Roll: <span class="sq-span" id="sipr">32</span></p>
+	<p class="sq">Square Feet Per Roll: <span class="sq-span" id="sfpr"></span> Square Inches Per Roll: <span class="sq-span" id="sipr"></span></p>
 <table class="calc-table-outputs">
 	
 	<tr>
@@ -48,51 +48,57 @@ layout: default
 	</tr>
 	<tr>
 		<td class="calc-label">Cost Per Square Inch: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td id="costPIpaper"></td>
+		<td id="costPIchemicals"></td>
+		<td id="totalPI"></td>
 	</tr>
 	<tr>
 		<td class="calc-label">Cost Per Square Foot: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td id="costPFpaper"></td>
+		<td id="costPFchemicals"></td>
+		<td id="totalPF"></td>
 	</tr>
 	<tr>
 		<td class="calc-label">Cost Per 4x6: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td id="cost4x6paper"></td>
+		<td id="cost4x6chemicals"></td>
+		<td id="total4x6"></td>
 	</tr>
 	<tr>
 		<td class="calc-label">Cost Per 5x7: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td id="cost5x7paper"></td>
+		<td id="cost5x7chemicals"></td>
+		<td id="total5x7"></td>
 	</tr>
 	<tr>
 		<td class="calc-label">Cost Per 8x10: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td id="cost8x10paper"></td>
+		<td id="cost8x10chemicals"></td>
+		<td id="total8x10"></td>
 	</tr>
 	<tr>
-		<td class="calc-label">Cost Per 11x12: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td class="calc-label">Cost Per 11x14: </td>
+		<td id="cost11x14paper"></td>
+		<td id="cost11x14chemicals"></td>
+		<td id="total11x14"></td>
 	</tr>
 	<tr>
 		<td class="calc-label">Cost Per 16x20: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td id="cost16x20paper"></td>
+		<td id="cost16x20chemicals"></td>
+		<td id="total16x20"></td>
 	</tr>
 	<tr>
 		<td class="calc-label">Cost For 10,000 4x6s: </td>
-		<td id="myid"></td>
-		<td id="myid"></td>
-		<td id="myid"></td>
+		<td id="cost10kpaper"></td>
+		<td id="cost10kchemicals"></td>
+		<td id="total10k"></td>
 	</tr>
 </table>
+<hr>
+<p><b>Conversions</b></p>
+<p>Gallons to Liters: <input type="number" value="1" id="gallons" class="conversions"> Gallons equals <span id="liters">3.785</span> Liters</p>
+<p>ml/m to ml/ft: <input type="number" value="100" id="mlm" class="conversions"> ml/m equals <span id="mft">9.29</span> m/ft</p>
 </div>
+
+<script type="text/javascript" src="/assets/js/calc.js"></script>

@@ -6,7 +6,11 @@
     input {text-align: center;}
     span {font-size:small; font-weight: bold;}
     .calc-label{text-align:right;}
-
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
 }
 .calc-table-inputs{
 	td {padding:0 10px 10px;}
@@ -31,3 +35,6 @@
 .info td{padding:0 10px 0}
 span.sq-span {display:inline-block; padding-right:10px;}
 .sq{font-size: smaller}
+
+#liters, #mft {display:inline-block; font-size: inherit}
+.conversions {width:60px;}
