@@ -38,13 +38,16 @@ var cost10kpaper = document.querySelector('#cost10kpaper');
 var costPIchemicals = document.querySelector('#costPIchemicals');
 var costPItotal = document.querySelector('#costPItotal');
 
-//get all text boxes and add an event listener to each one to trigger the update function
-allTextBoxes = document.getElementById("inputs").querySelectorAll('input[type="number"]')
+//get all input text boxes and add an event listener to each one to trigger the update function
+inputTextBoxes = document.getElementById("inputs").querySelectorAll('input[type="number"]')
+Array.from(inputTextBoxes).forEach(function(element) {
+	element.addEventListener('change', update);
+});
+//if enter is pressed send to tab function to remove focus
+allTextBoxes = document.querySelectorAll('input[type="number"]')
 Array.from(allTextBoxes).forEach(function(element) {
-      element.addEventListener('change', update);
-      //if enter is pressed send to tab function to remove focus
-      element.onkeypress = tab;
-    });
+	element.onkeypress = tab;
+});
 
 function update (){
 
@@ -82,46 +85,46 @@ function update (){
 		total11x14.innerHTML = rounder((totalPerInch*151),3);
 		total16x20.innerHTML = rounder((totalPerInch*320),3);
 		total10k.innerHTML = rounder((totalPerInch*240000),3);
-	
-console.groupCollapsed("results")
-console.log("Paper Cost per Square Inch: ",paperCostPerInch);
-console.log("Paper Cost per Square Foot: ",(144*paperCostPerInch));		
-console.log("Developer Cost per Square Inch: ",devCostPerInch);
-console.log("Bleach Fix Cost per Square Inch: ",blxCostPerInch);
-console.log("Stabilizer Cost per Square Inch: ",stabCostPerInch);
-console.log("Total Cost per Square Foot: ",(rounder((totalPerInch*144),4)));
-console.groupEnd()
-}
+		
+		console.groupCollapsed("results")
+		console.log("Paper Cost per Square Inch: ",paperCostPerInch);
+		console.log("Paper Cost per Square Foot: ",(144*paperCostPerInch));		
+		console.log("Developer Cost per Square Inch: ",devCostPerInch);
+		console.log("Bleach Fix Cost per Square Inch: ",blxCostPerInch);
+		console.log("Stabilizer Cost per Square Inch: ",stabCostPerInch);
+		console.log("Total Cost per Square Foot: ",(rounder((totalPerInch*144),4)));
+		console.groupEnd()
+	}
 
-function calcSqi () {
-   var totalSqf = paperWidth.value/12 *paperLength.value;
-   var paperSqi = totalSqf*144
-    displaySqf.innerHTML = Number((totalSqf).toFixed(2));
-    displaySqi.innerHTML = paperSqi;
-	return paperSqi;
-}
+	function calcSqi () {
+		var totalSqf = paperWidth.value/12 *paperLength.value;
+		var paperSqi = totalSqf*144
+		displaySqf.innerHTML = Number((totalSqf).toFixed(2));
+		displaySqi.innerHTML = paperSqi;
+		return paperSqi;
+	}
 
-function calcPaperCostPerInch() {
-	var costPsqi =  Number((paperCost.value / calcSqi()).toFixed(5)); 
- 	return Number.isFinite(costPsqi) ? costPsqi : 0;
+	function calcPaperCostPerInch() {
+		var costPsqi =  Number((paperCost.value / calcSqi()).toFixed(5)); 
+		return Number.isFinite(costPsqi) ? costPsqi : 0;
 
-}
+	}
 
-function calcChemCostPerInch(cost,liters,repRate){
-	var costPerInch = (cost/((liters/repRate)*1000))/144;
-	return Number.isFinite(costPerInch) ? costPerInch : 0;
-}
+	function calcChemCostPerInch(cost,liters,repRate){
+		var costPerInch = (cost/((liters/repRate)*1000))/144;
+		return Number.isFinite(costPerInch) ? costPerInch : 0;
+	}
 
-function rounder (num, limit){
-	var rounded = Number((num).toFixed(limit));
-	return rounded;
-}
+	function rounder (num, limit){
+		var rounded = Number((num).toFixed(limit));
+		return rounded;
+	}
 
 //if enter is pressed remove focus
 function tab(e) {
-    if (e.which == 13) {
-    	e.target.blur();
-    }
+	if (e.which == 13) {
+		e.target.blur();
+	}
 }
 
 // conversions
