@@ -30,7 +30,7 @@ canonical_domain: http://rdyar.github.io
 
 # if no logo, comment out above and enter the name and it will show instead
 # if the logo_url above is used this will not display
-logo_text: labWOES
+logo_text: LabWOES
 
 # Main nav is for screens wider than 600px
 # Home link is hard coded by default
