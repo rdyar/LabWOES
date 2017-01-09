@@ -1,7 +1,8 @@
+//inputs for paper
 var paperWidth = document.querySelector('#paperWidth');
 var paperLength = document.querySelector('#paperLength');
 var paperCost = document.querySelector('#paperCost');
-//chemicals
+//inputs for chemicals
 var devCostBox = document.querySelector('#devCostBox');
 var devLitersBox = document.querySelector('#devLitersBox');
 var devRepRate = document.querySelector('#devRepRate');
@@ -14,6 +15,25 @@ var stabCostBox = document.querySelector('#stabCostBox');
 var stabLitersBox = document.querySelector('#stabLitersBox');
 var stabRepRate = document.querySelector('#stabRepRate');
 
+//used to display paper costs 
+var costPIpaper = document.querySelector('#costPIpaper');
+var costPFpaper = document.querySelector('#costPFpaper');
+var cost4x6paper = document.querySelector('#cost4x6paper');
+var cost5x7paper = document.querySelector('#cost5x7paper');
+var cost8x10paper = document.querySelector('#cost8x10paper');
+var cost11x14paper = document.querySelector('#cost11x14paper');
+var cost16x20paper = document.querySelector('#cost16x20paper');
+var cost10kpaper = document.querySelector('#cost10kpaper');
+// used to display chem costs
+var costPIchemicals = document.querySelector('#costPIchemicals');
+var costPFchemicals = document.querySelector('#costPFchemicals');
+var cost4x6chemicals = document.querySelector('#cost4x6chemicals');
+var cost5x7chemicals = document.querySelector('#cost5x7chemicals');
+var cost8x10chemicals = document.querySelector('#cost8x10chemicals');
+var cost11x14chemicals = document.querySelector('#cost11x14chemicals');
+var cost16x20chemicals = document.querySelector('#cost16x20chemicals');
+var cost10kchemicals = document.querySelector('#cost10kchemicals');
+//used to display total costs
 var totalPI = document.querySelector('#totalPI');
 var totalPF = document.querySelector('#totalPF');
 var total4x6 = document.querySelector('#total4x6');
@@ -22,21 +42,9 @@ var total8x10 = document.querySelector('#total8x10');
 var total11x14 = document.querySelector('#total11x14');
 var total16x20 = document.querySelector('#total16x20');
 var total10k = document.querySelector('#total10k');
-
+//used to display sqf and sqi
 var displaySqf = document.querySelector('#sfpr');
 var displaySqi = document.querySelector('#sipr');
-
-//used to display costs
-var costPIpaper = document.querySelector('#costPIpaper');
-var cost4x6paper = document.querySelector('#cost4x6paper');
-var cost5x7paper = document.querySelector('#cost5x7paper');
-var cost8x10paper = document.querySelector('#cost8x10paper');
-var cost11x14paper = document.querySelector('#cost11x14paper');
-var cost16x20paper = document.querySelector('#cost16x20paper');
-var cost10kpaper = document.querySelector('#cost10kpaper');
-
-var costPIchemicals = document.querySelector('#costPIchemicals');
-var costPItotal = document.querySelector('#costPItotal');
 
 //get all input text boxes and add an event listener to each one to trigger the update function
 inputTextBoxes = document.getElementById("inputs").querySelectorAll('input[type="number"]')
@@ -89,7 +97,7 @@ function update (){
 		console.groupCollapsed("results")
 		console.log("Paper Cost per Square Inch: ",paperCostPerInch);
 		console.log("Paper Cost per 8x10: ",(paperCostPerInch*80));		
-		console.log("Developer Cost per 8x10: ",(devCostPerInch*80);
+		console.log("Developer Cost per 8x10: ",(devCostPerInch*80));
 		console.log("Bleach Fix Cost per 8x10: ",(blxCostPerInch*80));
 		console.log("Stabilizer Cost per 8x10: ",(stabCostPerInch*80));
 		console.log("Total Cost per 8x10: ",(rounder((totalPerInch*80),4)));
