@@ -85,14 +85,14 @@ function update (){
 		total11x14.innerHTML = rounder((totalPerInch*151),3);
 		total16x20.innerHTML = rounder((totalPerInch*320),3);
 		total10k.innerHTML = rounder((totalPerInch*240000),3);
-		
+
 		console.groupCollapsed("results")
 		console.log("Paper Cost per Square Inch: ",paperCostPerInch);
-		console.log("Paper Cost per Square Foot: ",(144*paperCostPerInch));		
-		console.log("Developer Cost per Square Inch: ",devCostPerInch);
-		console.log("Bleach Fix Cost per Square Inch: ",blxCostPerInch);
-		console.log("Stabilizer Cost per Square Inch: ",stabCostPerInch);
-		console.log("Total Cost per Square Foot: ",(rounder((totalPerInch*144),4)));
+		console.log("Paper Cost per 8x10: ",(paperCostPerInch*80));		
+		console.log("Developer Cost per 8x10: ",(devCostPerInch*80);
+		console.log("Bleach Fix Cost per 8x10: ",(blxCostPerInch*80));
+		console.log("Stabilizer Cost per 8x10: ",(stabCostPerInch*80));
+		console.log("Total Cost per 8x10: ",(rounder((totalPerInch*80),4)));
 		console.groupEnd()
 	}
 
