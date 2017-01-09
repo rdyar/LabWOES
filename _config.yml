@@ -3,7 +3,7 @@ name: "labWOES"
 title: Tales of woe from the photo lab
 description: labWOES is a place where I keep track of problems I have with various thing in my Photo lab, mostly relating to our ordering system and POS system.
 # baseurl is used if you are using github pages for a project page - this is the project/repo name, always starts with a /
-baseurl: /labWOES
+baseurl: /LabWOES
 
 
 permalink: pretty
