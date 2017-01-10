@@ -114,15 +114,15 @@ blockquote footer {
 }
 /*the bit below is to make linking to a headings id scroll to the correct position based on the fixed nav at the top
 it is in a media query cause on small screens the nav is not fixed at the top*/
-@media (min-width: 768px){
-    *[id]:before { 
-  display: block; 
-  content: " "; 
-  margin-top: -90px; 
-  height: 90px; 
-  visibility: hidden; 
-}
-}
+// @media (min-width: 768px){
+//     *[id]:before { 
+//   display: block; 
+//   content: " "; 
+//   margin-top: -90px; 
+//   height: 90px; 
+//   visibility: hidden; 
+// }
+// }
 @media (min-width: 768px){
 [id*="markdown-toc"]:before {
     display: none;

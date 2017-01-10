@@ -19,6 +19,9 @@ var stabRepRate = document.querySelector('#stabRepRate');
 var displaySqf = document.querySelector('#sfpr');
 var displaySqi = document.querySelector('#sipr');
 
+// rep rate message
+var repRateMessage = document.querySelector('.rep-rate-message');
+
 //get all input text boxes and add an event listener to each one to trigger the update function
 inputTextBoxes = document.getElementById("inputs").querySelectorAll('input[type="number"]')
 Array.from(inputTextBoxes).forEach(function(element) {
@@ -46,8 +49,18 @@ function chemPrices (id, multiplier) {
 	chem.querySelector('.chem-prices').innerHTML = "Developer: " + rounder((devCostPerInch*multiplier),4) +"<br>Bleach Fix: " + rounder((blxCostPerInch*multiplier),4) + "<br>Stabilizer: " + rounder((stabCostPerInch*multiplier),4);
 }
 
+function checkRepRate(){
+	if( devRepRate.value > 50 || blxRepRate.value > 50 || stabRepRate.value > 50){
+		repRateMessage.className += " rep-rate-warning";
+	}
+	else {
+		repRateMessage.className = "rep-rate-message";
+	}
+}
+
 function update (){
 
+	checkRepRate();
 	paperCostPerInch = calcPaperCostPerInch();	
 	devCostPerInch = calcChemCostPerInch(devCostBox.value,devLitersBox.value,devRepRate.value);
 	blxCostPerInch = calcChemCostPerInch(blxCostBox.value,blxLitersBox.value,blxRepRate.value);

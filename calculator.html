@@ -5,6 +5,7 @@ permalink: /calculator/
 layout: default
 ---
 <div class="calculator">
+<p class="rep-rate-message" id="rep-rate-alert">Replenishment rates are in ml/ft&#178;.</p>
 	<table class="calc-table-inputs" id="inputs">
 		<tr>
 			<td class="calc-label"><br>Paper:</td>
@@ -16,7 +17,7 @@ layout: default
 			<td class="calc-label"></td>
 			<td><span>Cost per Box</span></td>
 			<td><span>Liters per Box</span></td>
-			<td><span>Replenishment Rate (ml/ft)</span></td>
+			<td><span>Replenishment Rate (ml/ft&#178;)</span></td>
 		</tr>
 		<tr>
 			<td class="calc-label">Developer:</td>
@@ -98,7 +99,7 @@ layout: default
 <hr>
 <p><b>Conversions</b></p>
 <p>Gallons to Liters: <input type="number" value="1" id="gallons" class="conversions"> Gallons equals <span id="liters">3.785</span> Liters</p>
-<p>ml/m to ml/ft: <input type="number" value="100" id="mlm" class="conversions"> ml/m equals <span id="mft">9.29</span> m/ft</p>
+<p>ml/m&#178; to ml/ft&#178;: <input type="number" value="100" id="mlm" class="conversions"> ml/m&#178; equals <span id="mft">9.29</span> m/ft</p>
 </div>
 
 <script type="text/javascript" src="{{site.baseurl}}/assets/js/calc.js"></script>
