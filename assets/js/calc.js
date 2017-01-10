@@ -30,14 +30,30 @@ Array.from(allTextBoxes).forEach(function(element) {
 	element.onkeypress = tab;
 });
 
+ var chemCostPerInch;
+ var devCostPerInch;
+ var blxCostPerInch;
+ var stabCostPerInch;
+
+function chemPrices (id, multiplier) {
+	var cell = '#' + id;
+	
+	var chem = document.querySelector(cell);
+		chem.textContent = rounder((chemCostPerInch * multiplier),4);
+		chem
+			.appendChild(document.createElement("span"))
+			.className = "chem-prices";
+		chem.querySelector('.chem-prices').innerHTML = "Developer: " + rounder((devCostPerInch*multiplier),4) +"<br>Bleach Fix: " + rounder((blxCostPerInch*multiplier),4) + "<br>Stabilizer: " + rounder((stabCostPerInch*multiplier),4);
+}
+
 function update (){
 
-	var devCostPerInch = calcChemCostPerInch(devCostBox.value,devLitersBox.value,devRepRate.value);
-	var blxCostPerInch = calcChemCostPerInch(blxCostBox.value,blxLitersBox.value,blxRepRate.value);
-	var stabCostPerInch = calcChemCostPerInch(stabCostBox.value,stabLitersBox.value,stabRepRate.value);
+	paperCostPerInch = calcPaperCostPerInch();	
+    devCostPerInch = calcChemCostPerInch(devCostBox.value,devLitersBox.value,devRepRate.value);
+    blxCostPerInch = calcChemCostPerInch(blxCostBox.value,blxLitersBox.value,blxRepRate.value);
+    stabCostPerInch = calcChemCostPerInch(stabCostBox.value,stabLitersBox.value,stabRepRate.value);
+    chemCostPerInch = (devCostPerInch+blxCostPerInch+stabCostPerInch);
 	
-	var paperCostPerInch = calcPaperCostPerInch();
-	var chemCostPerInch = (devCostPerInch+blxCostPerInch+stabCostPerInch);
 		// paper costs
 		document.querySelector('#costPIpaper').textContent = paperCostPerInch;
 		document.querySelector('#costPFpaper').textContent = rounder((paperCostPerInch* 144),4)
@@ -48,14 +64,30 @@ function update (){
 		document.querySelector('#cost16x20paper').textContent = rounder(paperCostPerInch* 320,4)
 		document.querySelector('#cost10kpaper').textContent = rounder(paperCostPerInch* 240000,4)
 		//chem costs
-		document.querySelector('#costPIchemicals').textContent = rounder(chemCostPerInch,4);
-		document.querySelector('#costPFchemicals').textContent =  rounder(chemCostPerInch * 144,4);
-		document.querySelector('#cost4x6chemicals').textContent =  rounder(chemCostPerInch * 24,4);
-		document.querySelector('#cost5x7chemicals').textContent =  rounder(chemCostPerInch * 35,4);
-		document.querySelector('#cost8x10chemicals').textContent =  rounder(chemCostPerInch * 80,4);
-		document.querySelector('#cost11x14chemicals').textContent =  rounder(chemCostPerInch * 151,4);
-		document.querySelector('#cost16x20chemicals').textContent =  rounder(chemCostPerInch * 320,4);
-		document.querySelector('#cost10kchemicals').textContent =  rounder(chemCostPerInch * 240000,4);
+		
+		chemPrices('costPIchemicals',1);
+		chemPrices('costPFchemicals',144);
+		chemPrices('cost4x6chemicals',24);
+		chemPrices('cost5x7chemicals',35);
+		chemPrices('cost8x10chemicals',80);
+		chemPrices('cost11x14chemicals',151);
+		chemPrices('cost16x20chemicals',320);
+		chemPrices('cost10kchemicals',240000);
+		// var chemPI = document.querySelector('#costPIchemicals');
+		// chemPI.textContent = rounder(chemCostPerInch,4);
+		// chemPI
+		// 	.appendChild(document.createElement("span"))
+		// 	.className = "chem-prices";
+		// chemPI.querySelector('.chem-prices').innerHTML = "Developer: " + rounder(devCostPerInch,4) +"<br>Bleach Fix: " + rounder(blxCostPerInch,4) + "<br>Stabilizer: " + rounder(stabCostPerInch,4);
+
+
+		//document.querySelector('#costPFchemicals').textContent =  rounder(chemCostPerInch * 144,4);
+		// document.querySelector('#cost4x6chemicals').textContent =  rounder(chemCostPerInch * 24,4);
+		// document.querySelector('#cost5x7chemicals').textContent =  rounder(chemCostPerInch * 35,4);
+		// document.querySelector('#cost8x10chemicals').textContent =  rounder(chemCostPerInch * 80,4);
+		// document.querySelector('#cost11x14chemicals').textContent =  rounder(chemCostPerInch * 151,4);
+		// document.querySelector('#cost16x20chemicals').textContent =  rounder(chemCostPerInch * 320,4);
+		// document.querySelector('#cost10kchemicals').textContent =  rounder(chemCostPerInch * 240000,4);
 		//total costs
 		var totalPerInch = paperCostPerInch + chemCostPerInch;
 		document.querySelector('#totalPI').textContent = rounder(totalPerInch,4);

@@ -38,3 +38,26 @@ span.sq-span {display:inline-block; padding-right:10px;}
 
 #liters, #mft {display:inline-block; font-size: inherit}
 .conversions {width:60px;}
+
+//tool tip for chemical prices
+.chem-total:hover .chem-prices {
+    display: block;
+}
+
+
+.chem-prices {
+    display: none;
+    background: #dedede;
+    margin-left: 100px;
+    margin-top: -50px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1000;
+    width:150px;
+    height:80px;
+    text-align: left;
+}
+
+.chem-total {
+    margin:100px;
+}
