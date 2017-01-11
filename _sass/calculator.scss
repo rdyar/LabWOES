@@ -32,7 +32,13 @@ input[type=number]::-webkit-outer-spin-button {
 	span {}
 
 }
-.info td{padding:0 10px 0}
+.info td {
+	border-top: 1px solid #d0d0d0;
+    padding: 6px 10px 0;
+}
+.tr-inputs td {
+	padding-bottom:12px;
+}
 span.sq-span {display:inline-block; padding-right:10px;}
 .sq{font-size: smaller}
 
@@ -70,4 +76,7 @@ span.sq-span {display:inline-block; padding-right:10px;}
 .rep-rate-warning {
     border-left: 5px solid #e05a5a;
     background: #ffe0e0;
+}
+@media (max-width: 767px){
+.calculator { width: 100%;}
 }
