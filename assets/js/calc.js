@@ -37,6 +37,7 @@ var chemCostPerInch;
 var devCostPerInch;
 var blxCostPerInch;
 var stabCostPerInch;
+var totalPerInch;
 
 //calculates the chem price and adds the hidden span for roll over
 function chemPrices (id, multiplier) {
@@ -55,6 +56,19 @@ function checkRepRate(){
 	}
 	else {
 		repRateMessage.className = "rep-rate-message";
+	}
+}
+
+function sentry (){
+	if( paperCost.value && devRepRate.value && blxRepRate.value && stabRepRate.value){
+		console.groupCollapsed("results")
+		console.log("Paper Cost per Square Inch: ",paperCostPerInch);
+		console.log("Paper Cost per 8x10: ",(paperCostPerInch*80));		
+		console.log("Developer Cost per 8x10: ",(devCostPerInch*80));
+		console.log("Bleach Fix Cost per 8x10: ",(blxCostPerInch*80));
+		console.log("Stabilizer Cost per 8x10: ",(stabCostPerInch*80));
+		console.log("Total Cost per 8x10: ",(rounder((totalPerInch*80),4)));
+		console.groupEnd()
 	}
 }
 
@@ -86,7 +100,7 @@ function update (){
 		chemPrices('cost16x20chemicals',320);
 		chemPrices('cost10kchemicals',240000);
 		//total costs
-		var totalPerInch = paperCostPerInch + chemCostPerInch;
+		totalPerInch = paperCostPerInch + chemCostPerInch;
 		document.querySelector('#totalPI').textContent = rounder(totalPerInch,4);
 		document.querySelector('#totalPF').textContent = rounder((totalPerInch*144),3);
 		document.querySelector('#total4x6').textContent = rounder((totalPerInch*24),3);
@@ -95,15 +109,8 @@ function update (){
 		document.querySelector('#total11x14').textContent = rounder((totalPerInch*151),3);
 		document.querySelector('#total16x20').textContent = rounder((totalPerInch*320),3);
 		document.querySelector('#total10k').textContent = rounder((totalPerInch*240000),3);
-
-		console.groupCollapsed("results")
-		console.log("Paper Cost per Square Inch: ",paperCostPerInch);
-		console.log("Paper Cost per 8x10: ",(paperCostPerInch*80));		
-		console.log("Developer Cost per 8x10: ",(devCostPerInch*80));
-		console.log("Bleach Fix Cost per 8x10: ",(blxCostPerInch*80));
-		console.log("Stabilizer Cost per 8x10: ",(stabCostPerInch*80));
-		console.log("Total Cost per 8x10: ",(rounder((totalPerInch*80),4)));
-		console.groupEnd()
+		//sentry logging
+		sentry();
 	}
 
 	function calcSqi () {
