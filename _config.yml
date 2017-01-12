@@ -39,6 +39,8 @@ main_nav:
     url: /calculator/
   - title: "Posts"
     url: /posts/
+  - title: "About"
+    url: /about/  
    
 
 # on screens smaller than 600px, what nav do you want to show?
@@ -51,6 +53,8 @@ mobile_nav:
     url: /calculator/
   - title: "Posts"
     url: /posts/
+  - title: "About"
+    url: /about/  
 
 
 # Expander footer - this has 3 sections, about, links and contact info.
