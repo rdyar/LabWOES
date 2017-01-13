@@ -134,7 +134,7 @@ li {margin-bottom: 8px;}
     background-position: right bottom;
     width: 100%;
     height: 450px;
-    background-image: url('/assets/images/noritsu-conveyor.jpg');
+    background-image: url($baseurl + "/assets/images/noritsu-conveyor.jpg");
     background-size: cover;
 }
 @media (max-width: 768px){
