@@ -1,3 +1,30 @@
+//ie version
+var uA = navigator.userAgent;
+var browser = null;
+var ieVersion = null;
+
+if (uA.indexOf('MSIE 6') >= 0) {
+    browser = 'IE';
+    ieVersion = 6;
+}
+if (uA.indexOf('MSIE 7') >= 0) {
+    browser = 'IE';
+    ieVersion = 7;
+}
+if (document.documentMode) { // as of IE8
+    browser = 'IE';
+    ieVersion = document.documentMode;
+}
+
+//display message on home if ie 11 or lower
+if (browser == 'IE' && ieVersion <= 11){
+  var warning = document.querySelector('.gh-issues');
+  message = document.createElement('p');
+  message.textContent = "It looks like you are using a version of Internet Explorer that is not supported. Please use a modern browser like Chrome or FireFox.";
+  message.className = "ie-warning";
+  warning.appendChild(message);
+  }
+
 // fix for isFinite
 Number.isFinite = Number.isFinite || function(value) {
     return typeof value === "number" && isFinite(value);
