@@ -18,15 +18,7 @@ function listIssues(data) {
 	    issue.className = "gh-issues-item";  
 	var date = new Date(data[i].created_at);
 	var ghidate = date.toDateString();
-	var converter = new showdown.Converter();
-    var text = data[i].body;
-    var html = converter.makeHtml(text);
 	issue.innerHTML = "<a href=" + data[i].html_url + ">" + data[i].title + "</a><br><span>Created on " + ghidate + "</span>";
 	ghi.appendChild(issue);
   };
 }
- // var date = new Date(issue.created_at);
- //            var ghidate = date.toDateString();
- //            var converter = new showdown.Converter(),
- //                text      = issue.body,
- //                html      = converter.makeHtml(text);

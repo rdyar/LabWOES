@@ -4,3 +4,12 @@ description: Various posts about photo lab woes.
 permalink: /posts/
 layout: default
 ---
+
+
+{% for post in site.posts%}
+<div class="post-item">
+<a href="{{post.url}}">{{post.title}}</a><br>
+<span>Posted on {{ post.date | date: "%B %-d, %Y"}}</span>
+<p>{{post.description}}</p>
+</div>
+{% endfor %}

@@ -39,9 +39,13 @@ main_nav:
     url: /calculator/
   - title: "Posts"
     url: /posts/
+  - title: "Issues"
+    url: /issues/    
   - title: "About"
     url: /about/  
-   
+
+     
+
 
 # on screens smaller than 600px, what nav do you want to show?
 # Home is not set by default, the logo works as home link so it could be skipped.
