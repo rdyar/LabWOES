@@ -1,18 +1,21 @@
-const ghDataURL = "https://api.github.com/repos/rdyar/LabWOES/issues";
+var xmlhttp = new XMLHttpRequest();
+var url = "https://api.github.com/repos/rdyar/LabWOES/issues";
 
-const ghData = [];
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var data = JSON.parse(this.responseText);
+       listIssues(data);
+    }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
 
-fetch(ghDataURL)
-	.then(function (blob){ return blob.json()})
-	.then(function (data) {ghData.push(...data)})
-	.then(test);
-
-function test() {
-	for (var i=0, len = ghData.length; i < len; i++) {
-	console.log(ghData[i].title);
+function listIssues(data) {
+	for (var i=0, len = data.length; i < len; i++) {
+	console.log(data[i].title);
 	var ghi = document.querySelector('.gh-issues');
 	var issue = document.createElement('p');
-	issue.innerHTML = ghData[i].title;
+	issue.innerHTML = data[i].title;
 	ghi.appendChild(issue);
   };
 }
