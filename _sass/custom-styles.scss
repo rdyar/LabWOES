@@ -143,3 +143,12 @@ li {margin-bottom: 8px;}
 @media (max-width: 400px){
    .cover-img { height: 200px;}
 }
+
+.gh-issues-item {
+        border: 1px solid #efefef;
+    padding: 8px 20px;
+    background-color: ghostwhite;
+    margin-bottom: 20px;
+    span {font-size:smaller;}
+    div {padding-top:12px;}
+}
