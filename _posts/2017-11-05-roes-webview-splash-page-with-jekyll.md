@@ -5,4 +5,4 @@ youtube-url: wO5ukuYIk5A
 layout: videos
 ---
 
-Link to Github Repo: https://github.com/rdyar/roes-splash-example
+Link to Github Repo: [https://github.com/rdyar/roes-splash-example](https://github.com/rdyar/roes-splash-example)
