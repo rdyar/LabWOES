@@ -47,7 +47,7 @@
 					<AccountName>[ACCOUNT_NAME]</AccountName>
 					<Phone1>[CUSTOMER_PHONE]</Phone1>
 				    <Email>[CUSTOMER_EMAIL]</Email>
-				    <CustomerType>[BEGIN_IF("<LAB_LABEL>"=="ProLabPrints ROES")]Fromex[END_IF][BEGIN_IF("<LAB_LABEL>"=="Qprints.com ROES")]Qprints[END_IF][BEGIN_IF("<LAB_LABEL>"=="Fromex Photo Lab Test ROES")]Fromex[END_IF]</CustomerType>
+				    <CustomerType>[BEGIN_IF("<LAB_LABEL>"=="ProLabPrints ROES")]Fromex[END_IF][BEGIN_IF("<LAB_LABEL>"=="Fromex Photo Lab Test ROES")]Fromex[END_IF]</CustomerType>
 				</Customer>
 				<Billing>
 					<CustomerName>[CUSTOMER_NAME], [CUSTOMER_FIRSTNAME]</CustomerName>
