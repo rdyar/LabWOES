@@ -159,3 +159,35 @@ li {margin-bottom: 8px;}
     p {padding-top:10px;}
     span{font-size: small}
 }
+#bg-canvas{
+    margin:20px;
+}
+#sidebar {
+max-width: 380px;
+    padding: 1rem;
+    color: #c0bbb7;
+    background: #3a3633;
+    border-bottom: 1px solid #505050;
+    border-right: 1px solid #505050;
+    flex: 1;
+    h2{
+        color:#efefef;
+        margin-bottom:20px;
+        text-align: center;
+    }
+}
+.sidebar-flex {
+    display: flex;
+    overflow: auto;
+}
+input{
+    color: black;
+    margin-left:8px;
+    padding:4px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+label {margin-left: 8px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
