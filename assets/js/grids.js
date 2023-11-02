@@ -1,5 +1,5 @@
 let canvas, templateW, templateH, gap, border, xNumber, yNumber;
-let dpi = 150;
+let dpi = 300;
 
 function setup() {
   initializeInputs();
@@ -31,8 +31,8 @@ function drawGrid() {
     (templateH2 * dpi - 2 * border2 - (yNumber2 - 1) * gap2) / yNumber2,
     2
   );
-  const nodeW = round(nodeWInitial / 300, 2) * 300;
-  const nodeH = round(nodeHInitial / 300, 2) * 300;
+  const nodeW = round(nodeWInitial / dpi, 2) * dpi;
+  const nodeH = round(nodeHInitial / dpi, 2) * dpi;
   const newBorderW = round(
     (width - nodeW * xNumber2 - (xNumber2 - 1) * gap2) / 2
   );
@@ -56,7 +56,7 @@ function drawGrid() {
     (width - newBorderW - nodeW * xNumber2 - (xNumber2 - 1) * gap2) / dpi,
     2
   )} `;
-  textSize(20);
+  textSize(40);
   text(
     `nodes are - width: ${round(nodeW / dpi, 2)}, height: ${round(
       nodeH / dpi,
@@ -66,7 +66,7 @@ function drawGrid() {
     20
   );
 
-  textSize(40);
+  textSize(80);
   for (let x = newBorderW; x < width - newBorderW; x = x + nodeW + gap2) {
     for (let y = newBorderH; y < height - newBorderH; y = y + nodeH + gap2) {
       rect(x, y, nodeW, nodeH);
