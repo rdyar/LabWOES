@@ -7,13 +7,13 @@ p5: true
 
 <div class="sidebar-flex">
   <div id="sidebar">
-    <h2>Settings</h2>
+    <h2>Griderator Settings</h2>
     <p>Everything is in inches</p>
     <label>Template Width</label><br />
     <input id="templateW" value="15" placeholder="in inches" /><br />
     <label>Template Height</label><br />
     <input id="templateH" value="12" placeholder="in inches" /><br />
-    <label>Outer Border</label><br />
+    <label>Outer Border (may get re-calculated)</label><br />
     <input id="border" value="1" placeholder="in inches" /><br />
     <label>Gap Between Nodes</label><br />
     <input id="gap" value=".1" placeholder="in inches" /><br />
@@ -25,6 +25,23 @@ p5: true
       This tool is to help figure out the x and y co-ordinates for nodes when
       creating a template in an ordering system.
     </p>
+    <p>
+      please note the requested outer border width can be changed due to
+      rounding issues, this keeps it centered both vertically and horizontally.
+      It is possible the border will be slightly different on top/bottom vs
+      left/right.
+    </p>
+    <button
+      type="button"
+      onclick="saveImage()"
+      id="btnSave"
+      class="btn btn-primary btn-lg btn-full-width"
+    >
+      Save Grid
+    </button>
   </div>
-  <div id="bg-canvas"></div>
+  <div class="not-sidebar">
+    <p id="stats"></p>
+    <div id="bg-canvas"></div>
+  </div>
 </div>

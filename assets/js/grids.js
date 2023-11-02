@@ -21,18 +21,57 @@ function drawGrid() {
   xNumber2 = Number(xNumber.value);
   yNumber2 = Number(yNumber.value);
 
-  textSize((templateW2 / 15) * 50);
   textAlign(CENTER, CENTER);
-  const nodeW =
-    (templateW2 * dpi - 2 * border2 - (xNumber2 - 1) * gap2) / xNumber2;
-  const nodeH =
-    (templateH2 * dpi - 2 * border2 - (yNumber2 - 1) * gap2) / yNumber2;
+  //need to make sure it is divisible by 300 at some point.
+  // 2 decimal points seems to work
+  const nodeWInitial = round(
+    (templateW2 * dpi - 2 * border2 - (xNumber2 - 1) * gap2) / xNumber2
+  );
+  const nodeHInitial = round(
+    (templateH2 * dpi - 2 * border2 - (yNumber2 - 1) * gap2) / yNumber2,
+    2
+  );
+  const nodeW = round(nodeWInitial / 300, 2) * 300;
+  const nodeH = round(nodeHInitial / 300, 2) * 300;
+  const newBorderW = round(
+    (width - nodeW * xNumber2 - (xNumber2 - 1) * gap2) / 2
+  );
+  const newBorderH = round(
+    (height - nodeH * yNumber2 - (yNumber2 - 1) * gap2) / 2
+  );
+  // console.log("newBorderW :>> ", newBorderW);
+  // console.log("nodeW :>> ", nodeW);
+  // console.log("nodeW/300 :>> ", nodeW / 300);
+  // console.log("rounded nodeW/300 :>> ", round(nodeW / 300, 2));
+  // console.log("rounded nodeW/300 :>> ", round(nodeW / 300, 2) * 300);
   background(220);
-  for (let x = border2; x < width - border2; x = x + nodeW + gap2) {
-    for (let y = border2; y < height - border2; y = y + nodeH + gap2) {
+  const stats = document.getElementById("stats");
+  stats.innerHTML = `node width: ${round(nodeW / dpi, 2)}, height: ${round(
+    nodeH / dpi,
+    2
+  )} <br/> actual border on left: ${round(
+    newBorderW / dpi,
+    2
+  )} - right: ${round(
+    (width - newBorderW - nodeW * xNumber2 - (xNumber2 - 1) * gap2) / dpi,
+    2
+  )} `;
+  textSize(20);
+  text(
+    `nodes are - width: ${round(nodeW / dpi, 2)}, height: ${round(
+      nodeH / dpi,
+      2
+    )} `,
+    width / 2,
+    20
+  );
+
+  textSize(40);
+  for (let x = newBorderW; x < width - newBorderW; x = x + nodeW + gap2) {
+    for (let y = newBorderH; y < height - newBorderH; y = y + nodeH + gap2) {
       rect(x, y, nodeW, nodeH);
       text(
-        ` x:${round(x / dpi, 3)}   y:${round(y / dpi, 3)} `,
+        ` x:${round(x / dpi, 2)}   y:${round(y / dpi, 2)} `,
         x,
         y,
         nodeW,
@@ -40,14 +79,6 @@ function drawGrid() {
       );
     }
   }
-  text(
-    `nodes are - width: ${round(nodeW / dpi, 3)}, height: ${round(
-      nodeH / dpi,
-      3
-    )} `,
-    width / 2,
-    (templateW2 / 15) * 30
-  );
 }
 function initializeInputs() {
   templateW = document.getElementById("templateW");
@@ -87,4 +118,35 @@ function resizeMe() {
   canvas.style("max-width", maxW + "px");
   canvas.style("max-height", maxH + "px");
   drawGrid();
+}
+
+function saveImage(generator = "griderator") {
+  // save('pattern.png');
+  var link = document.createElement("a");
+  var theCanvas = document.getElementById("defaultCanvas0");
+  let imgData = theCanvas.toDataURL("image/jpeg", 1.0);
+
+  // var strDataURI = imgData.substr(22, imgData.length);
+  var blob = dataURLtoBlob(imgData);
+  var objurl = URL.createObjectURL(blob);
+  var date = new Date();
+  let timestamp = `${date.getMonth() + 1}${date.getDate()}${date
+    .getFullYear()
+    .toString()
+    .slice(2)}-${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
+  link.download = `${generator}-${timestamp}`;
+  link.href = objurl;
+  link.click();
+}
+
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], { type: mime });
 }
