@@ -1,4 +1,4 @@
-let canvas, templateW, templateH, gap, border, xNumber, yNumber;
+let canvas, templateW, templateH, gap, xBorder, yBorder, xNumber, yNumber;
 let dpi = 300;
 
 function setup() {
@@ -16,7 +16,8 @@ function setup() {
 function drawGrid() {
   templateW2 = Number(templateW.value) || 0;
   templateH2 = Number(templateH.value) || 0;
-  border2 = Number(border.value) * dpi || 0;
+  borderX = Number(xBorder.value) * dpi || 0;
+  borderY = Number(yBorder.value) * dpi || 0;
   gap2 = Number(gap.value) * dpi || 0;
   xNumber2 = Number(xNumber.value);
   yNumber2 = Number(yNumber.value);
@@ -25,10 +26,10 @@ function drawGrid() {
   //need to make sure it is divisible by 300 at some point.
   // 2 decimal points seems to work
   const nodeWInitial = round(
-    (templateW2 * dpi - 2 * border2 - (xNumber2 - 1) * gap2) / xNumber2
+    (templateW2 * dpi - 2 * borderX - (xNumber2 - 1) * gap2) / xNumber2
   );
   const nodeHInitial = round(
-    (templateH2 * dpi - 2 * border2 - (yNumber2 - 1) * gap2) / yNumber2,
+    (templateH2 * dpi - 2 * borderY - (yNumber2 - 1) * gap2) / yNumber2,
     2
   );
   const nodeW = round(nodeWInitial / dpi, 2) * dpi;
@@ -84,7 +85,8 @@ function initializeInputs() {
   templateW = document.getElementById("templateW");
   templateH = document.getElementById("templateH");
   gap = document.getElementById("gap");
-  border = document.getElementById("border");
+  xBorder = document.getElementById("xBorder");
+  yBorder = document.getElementById("yBorder");
   xNumber = document.getElementById("xNumber");
   yNumber = document.getElementById("yNumber");
 }

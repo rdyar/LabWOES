@@ -10,17 +10,29 @@ p5: true
     <h2>Griderator Settings</h2>
     <p>Everything is in inches</p>
     <label>Template Width</label><br />
-    <input id="templateW" value="15" placeholder="in inches" /><br />
+    <input
+      type="number"
+      id="templateW"
+      value="15"
+      placeholder="in inches"
+    /><br />
     <label>Template Height</label><br />
-    <input id="templateH" value="12" placeholder="in inches" /><br />
-    <label>Outer Border (may get re-calculated)</label><br />
-    <input id="border" value="1" placeholder="in inches" /><br />
+    <input
+      type="number"
+      id="templateH"
+      value="12"
+      placeholder="in inches"
+    /><br />
+    <label>Top/Bottom Border (may get re-calculated)</label><br />
+    <input type="number" id="yBorder" value="1" placeholder="in inches" /><br />
+    <label>Left/Right Border (may get re-calculated)</label><br />
+    <input type="number" id="xBorder" value="1" placeholder="in inches" /><br />
     <label>Gap Between Nodes</label><br />
     <input id="gap" value=".1" placeholder="in inches" /><br />
     <label>Number of nodes on X axis</label><br />
-    <input id="xNumber" value="5" placeholder="in inches" /><br />
+    <input type="number" id="xNumber" value="5" placeholder="in inches" /><br />
     <label>Number of nodes on Y axis</label><br />
-    <input id="yNumber" value="4" placeholder="in inches" /><br />
+    <input type="number" id="yNumber" value="4" placeholder="in inches" /><br />
     <p>
       This tool is to help figure out the x and y co-ordinates for nodes when
       creating a template in an ordering system.
