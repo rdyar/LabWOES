@@ -1,4 +1,13 @@
-let canvas, templateW, templateH, gap, xBorder, yBorder, xNumber, yNumber;
+let canvas,
+  templateW,
+  templateH,
+  gap,
+  gapY,
+  xBorder,
+  yBorder,
+  xNumber,
+  yNumber,
+  shiftY;
 let dpi = 300;
 
 function setup() {
@@ -19,8 +28,10 @@ function drawGrid() {
   borderX = Number(xBorder.value) * dpi || 0;
   borderY = Number(yBorder.value) * dpi || 0;
   gap2 = Number(gap.value) * dpi || 0;
+  gap2y = gapY.value ? Number(gapY.value) * dpi : gap2;
   xNumber2 = Number(xNumber.value);
   yNumber2 = Number(yNumber.value);
+  shiftY2 = Number(shiftY.value) * dpi || 0;
 
   textAlign(CENTER, CENTER);
   //need to make sure it is divisible by 300 at some point.
@@ -29,7 +40,7 @@ function drawGrid() {
     (templateW2 * dpi - 2 * borderX - (xNumber2 - 1) * gap2) / xNumber2
   );
   const nodeHInitial = round(
-    (templateH2 * dpi - 2 * borderY - (yNumber2 - 1) * gap2) / yNumber2,
+    (templateH2 * dpi - 2 * borderY - (yNumber2 - 1) * gap2y) / yNumber2,
     2
   );
   const nodeW = round(nodeWInitial / dpi, 2) * dpi;
@@ -38,7 +49,7 @@ function drawGrid() {
     (width - nodeW * xNumber2 - (xNumber2 - 1) * gap2) / 2
   );
   const newBorderH = round(
-    (height - nodeH * yNumber2 - (yNumber2 - 1) * gap2) / 2
+    (height - nodeH * yNumber2 - (yNumber2 - 1) * gap2y) / 2
   );
   // console.log("newBorderW :>> ", newBorderW);
   // console.log("nodeW :>> ", nodeW);
@@ -68,13 +79,22 @@ function drawGrid() {
   );
 
   textSize(80);
+  // exit when rows reached (fix for shiftY)
+  let rows = 0;
   for (let x = newBorderW; x < width - newBorderW; x = x + nodeW + gap2) {
-    for (let y = newBorderH; y < height - newBorderH; y = y + nodeH + gap2) {
-      rect(x, y, nodeW, nodeH);
+    for (let y = newBorderH; y < height - newBorderH; y = y + nodeH + gap2y) {
+      strokeWeight(5);
+      stroke(0, 200, 200);
+      rect(x, y + shiftY2, nodeW, nodeH);
+      strokeWeight(1);
+      stroke(0, 0, 0);
+      if (nodeW / dpi < 1.5 || nodeH / dpi < 1.5) {
+        textSize(40);
+      }
       text(
-        ` x:${round(x / dpi, 2)}   y:${round(y / dpi, 2)} `,
+        ` x:${round(x / dpi, 2)}   y:${round((y + shiftY2) / dpi, 2)} `,
         x,
-        y,
+        y + shiftY2,
         nodeW,
         nodeH
       );
@@ -85,10 +105,12 @@ function initializeInputs() {
   templateW = document.getElementById("templateW");
   templateH = document.getElementById("templateH");
   gap = document.getElementById("gap");
+  gapY = document.getElementById("gapY");
   xBorder = document.getElementById("xBorder");
   yBorder = document.getElementById("yBorder");
   xNumber = document.getElementById("xNumber");
   yNumber = document.getElementById("yNumber");
+  shiftY = document.getElementById("shiftY");
 }
 function initializeEventListeners() {
   //get all sliders at once
