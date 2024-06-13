@@ -7,7 +7,8 @@ let canvas,
   yBorder,
   xNumber,
   yNumber,
-  shiftY;
+  shiftY,
+  nodeWidthRatio; // new variable
 let dpi = 300;
 
 function setup() {
@@ -43,8 +44,28 @@ function drawGrid() {
     (templateH2 * dpi - 2 * borderY - (yNumber2 - 1) * gap2y) / yNumber2,
     2
   );
-  const nodeW = round(nodeWInitial / dpi, 2) * dpi;
-  const nodeH = round(nodeHInitial / dpi, 2) * dpi;
+  let nodeH, nodeW;
+
+  if (
+    nodeWidthRatio.value &&
+    nodeWidthRatio.value < 1 &&
+    nodeWidthRatio.value !== "0"
+  ) {
+    nodeW = round(nodeWInitial / dpi, 2) * dpi;
+    nodeH = nodeW * nodeWidthRatio.value;
+  } else if (nodeWidthRatio.value && nodeWidthRatio.value > 1) {
+    nodeH = round(nodeHInitial / dpi, 2) * dpi;
+    nodeW = nodeH / nodeWidthRatio.value;
+  } else {
+    nodeW = round(nodeWInitial / dpi, 2) * dpi;
+    nodeH = round(nodeHInitial / dpi, 2) * dpi;
+  }
+
+  console.log("nodeW :>> ", nodeW);
+
+  console.log("nodeH :>> ", nodeH);
+  //const nodeW = ((templateW2 * dpi - 2 * borderX - (xNumber2 - 1) * gap2) / xNumber2) * Number(nodeWidthRatio.value);
+  //const nodeH = ((templateH2 * dpi - 2 * borderY - (yNumber2 - 1) * gap2y) / yNumber2) * Number(nodeHeightRatio.value);
   const newBorderW = round(
     (width - nodeW * xNumber2 - (xNumber2 - 1) * gap2) / 2
   );
@@ -111,6 +132,7 @@ function initializeInputs() {
   xNumber = document.getElementById("xNumber");
   yNumber = document.getElementById("yNumber");
   shiftY = document.getElementById("shiftY");
+  nodeWidthRatio = document.getElementById("nodeWidthRatio");
 }
 function initializeEventListeners() {
   //get all sliders at once

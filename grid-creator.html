@@ -9,6 +9,7 @@ p5: true
   <div id="sidebar">
     <h2>Griderator Settings</h2>
     <p>Everything is in inches</p>
+
     <label>Template Width</label><br />
     <input
       type="number"
@@ -41,6 +42,17 @@ p5: true
       id="shiftY"
       value=""
       placeholder="optional - in inches"
+    /><br />
+    <label
+      >Node Ratio (.8 for 8:10 or 1.25 for 10:8). This messes up the border
+      calculations, if the nodes scroll off the screen try increasing the
+      borders to bring them back in.</label
+    ><br />
+    <input
+      type="number"
+      id="nodeWidthRatio"
+      value="1"
+      placeholder="Width Ratio"
     /><br />
     <p>
       This tool is to help figure out the x and y co-ordinates for nodes when
