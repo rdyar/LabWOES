@@ -63,11 +63,6 @@ function drawGrid() {
     nodeH = round(nodeHInitial / dpi, 2) * dpi;
   }
 
-  console.log("nodeW :>> ", nodeW);
-
-  console.log("nodeH :>> ", nodeH);
-  //const nodeW = ((templateW2 * dpi - 2 * borderX - (xNumber2 - 1) * gap2) / xNumber2) * Number(nodeWidthRatio.value);
-  //const nodeH = ((templateH2 * dpi - 2 * borderY - (yNumber2 - 1) * gap2y) / yNumber2) * Number(nodeHeightRatio.value);
   const newBorderW = round(
     (width - nodeW * xNumber2 - (xNumber2 - 1) * gap2) / 2
   );
