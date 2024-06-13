@@ -8,6 +8,7 @@ let canvas,
   xNumber,
   yNumber,
   shiftY,
+  showPixels,
   nodeWidthRatio; // new variable
 let dpi = 300;
 
@@ -24,6 +25,7 @@ function setup() {
 }
 
 function drawGrid() {
+  console.log("showPixels :>> ", showPixels.checked);
   templateW2 = Number(templateW.value) || 0;
   templateH2 = Number(templateH.value) || 0;
   borderX = Number(xBorder.value) * dpi || 0;
@@ -79,10 +81,13 @@ function drawGrid() {
   // console.log("rounded nodeW/300 :>> ", round(nodeW / 300, 2) * 300);
   background(220);
   const stats = document.getElementById("stats");
-  stats.innerHTML = `node width: ${round(nodeW / dpi, 2)}, height: ${round(
+  stats.innerHTML = `node width: ${round(nodeW / dpi, 2)}in, height: ${round(
     nodeH / dpi,
     2
-  )} <br/> actual border on left: ${round(
+  )}in (${round(nodeW, 2)}px x ${round(
+    nodeH,
+    2
+  )}px) <br/> actual border on left: ${round(
     newBorderW / dpi,
     2
   )} - right: ${round(
@@ -113,7 +118,9 @@ function drawGrid() {
         textSize(40);
       }
       text(
-        ` x:${round(x / dpi, 2)}   y:${round((y + shiftY2) / dpi, 2)} `,
+        showPixels.checked
+          ? `x: ${round(x)} y: ${round(y)}`
+          : ` x: ${round(x / dpi, 2)}   y: ${round((y + shiftY2) / dpi, 2)} `,
         x,
         y + shiftY2,
         nodeW,
@@ -133,6 +140,7 @@ function initializeInputs() {
   yNumber = document.getElementById("yNumber");
   shiftY = document.getElementById("shiftY");
   nodeWidthRatio = document.getElementById("nodeWidthRatio");
+  showPixels = document.getElementById("showPixels");
 }
 function initializeEventListeners() {
   //get all sliders at once
