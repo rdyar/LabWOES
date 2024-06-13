@@ -53,7 +53,7 @@ function drawGrid() {
   ) {
     nodeW = round(nodeWInitial / dpi, 2) * dpi;
     nodeH = nodeW * nodeWidthRatio.value;
-  } else if (nodeWidthRatio.value && nodeWidthRatio.value > 1) {
+  } else if (nodeWidthRatio.value && nodeWidthRatio.value >= 1) {
     nodeH = round(nodeHInitial / dpi, 2) * dpi;
     nodeW = nodeH / nodeWidthRatio.value;
   } else {
