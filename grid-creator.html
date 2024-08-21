@@ -9,6 +9,7 @@ p5: true
   <div id="sidebar">
     <h2>Griderator Settings</h2>
     <p>Everything is in inches</p>
+
     <label>Template Width</label><br />
     <input
       type="number"
@@ -24,13 +25,37 @@ p5: true
       placeholder="in inches"
     /><br />
     <label>Top/Bottom Border (may get re-calculated)</label><br />
-    <input type="number" id="yBorder" value="1" placeholder="in inches" /><br />
+    <input
+      type="number"
+      id="yBorder"
+      value="1"
+      step=".1"
+      placeholder="in inches"
+    /><br />
     <label>Left/Right Border (may get re-calculated)</label><br />
-    <input type="number" id="xBorder" value="1" placeholder="in inches" /><br />
+    <input
+      type="number"
+      id="xBorder"
+      value="1"
+      step=".1"
+      placeholder="in inches"
+    /><br />
     <label>Gap Between Nodes</label><br />
-    <input id="gap" value=".1" placeholder="in inches" /><br />
+    <input
+      type="number"
+      step=".1"
+      id="gap"
+      value=".1"
+      placeholder="in inches"
+    /><br />
     <label>Gap Override on Y axis (optional)</label><br />
-    <input id="gapY" value="" placeholder="optional - in inches" /><br />
+    <input
+      type="number"
+      step=".1"
+      id="gapY"
+      value=""
+      placeholder="optional - in inches"
+    /><br />
     <label>Number of nodes on X axis</label><br />
     <input type="number" id="xNumber" value="5" placeholder="in inches" /><br />
     <label>Number of nodes on Y axis</label><br />
@@ -38,9 +63,25 @@ p5: true
     <label>Shift nodes on Y axis up/down</label><br />
     <input
       type="number"
+      step=".1"
       id="shiftY"
       value=""
       placeholder="optional - in inches"
+    /><br />
+    <label>
+      <input type="checkbox" id="showPixels" />
+      Show Pixel Values
+    </label>
+    <label
+      >Node Ratio (.8 for 8:10 or 1.25 for 10:8). This messes up the border
+      calculations, if the nodes scroll off the screen try increasing the
+      borders to bring them back in.</label
+    ><br />
+    <input
+      type="number"
+      id="nodeWidthRatio"
+      value=""
+      placeholder="Optional Width Ratio"
     /><br />
     <p>
       This tool is to help figure out the x and y co-ordinates for nodes when
