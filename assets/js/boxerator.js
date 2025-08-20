@@ -9,7 +9,7 @@ class Boxerator {
         this.height = 15;
         this.depth = 1;
         this.topBottomFlap = 3; // Width of top and bottom flaps
-        // this.materialThickness = 0.1; // Not used yet
+        this.materialThickness = 0.1; // Material thickness for proper folding
         
         this.init();
     }
@@ -74,14 +74,13 @@ class Boxerator {
             });
         }
         
-        // Material thickness not implemented yet
-        
-        // if (thicknessInput) {
-        //     thicknessInput.addEventListener('input', (e) => {
-        //         this.materialThickness = parseFloat(e.target.value) || 0;
-        //         this.drawBox();
-        //     });
-        // }
+        // Material thickness
+        if (thicknessInput) {
+            thicknessInput.addEventListener('input', (e) => {
+                this.materialThickness = parseFloat(e.target.value) || 0;
+                this.drawBox();
+            });
+        }
     }
     
     drawBox() {
@@ -96,9 +95,9 @@ class Boxerator {
         this.ctx.fillStyle = '#e0e0e0';
         
         // Calculate scale factor to fit the box on canvas
-        // Total width now includes side flaps: width + depth*2 + width*0.5*2 = width*2 + depth*2
+        // Total width now includes side flaps: width + (depth + materialThickness)*2 + width*0.5*2 = width*2 + (depth + materialThickness)*2
         // Total height now includes top/bottom flaps: height + depth*2 + topBottomFlap*2
-        const totalWidth = this.width * 2 + this.depth * 2;
+        const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2;
         const totalHeight = this.height + this.depth * 2 + this.topBottomFlap * 2;
         
         const scale = Math.min(
@@ -127,6 +126,7 @@ class Boxerator {
         const w = this.width * scale;
         const h = this.height * scale;
         const d = this.depth * scale;
+        const mt = this.materialThickness * scale;
         
         // Draw the cross shape of the one piece folder
         this.ctx.beginPath();
@@ -137,29 +137,32 @@ class Boxerator {
         // Bottom flap
         this.ctx.rect(offsetX + d, offsetY + d + h, w, d);
         
-        // Left flap
-        this.ctx.rect(offsetX, offsetY + d, d, h);
+        // Left flap (increased depth to account for material thickness)
+        this.ctx.rect(offsetX, offsetY + d, d + mt, h);
         
-        // Right flap
-        this.ctx.rect(offsetX + d + w, offsetY + d, d, h);
+        // Right flap (increased depth to account for material thickness)
+        this.ctx.rect(offsetX + d + w, offsetY + d, d + mt, h);
         
         // Center (main box area)
         this.ctx.rect(offsetX + d, offsetY + d, w, h);
         
         // Left side flap (50% of width, extends outward)
         const leftSideFlapWidth = (w * 0.5);
-        this.ctx.rect(offsetX - leftSideFlapWidth, offsetY + d, leftSideFlapWidth, h);
+        this.ctx.rect(offsetX - leftSideFlapWidth - mt, offsetY + d, leftSideFlapWidth, h);
+        
+        // Fill the gap between left side flap and left depth flap
+        this.ctx.rect(offsetX - mt, offsetY + d, mt, h);
         
         // Right side flap (50% of width, extends outward)
         const rightSideFlapWidth = (w * 0.5);
-        this.ctx.rect(offsetX + d + w + d, offsetY + d, rightSideFlapWidth, h);
+        this.ctx.rect(offsetX + d + w + d + mt, offsetY + d, rightSideFlapWidth, h);
         
         // Top flap (extends outward from top depth flap)
         const tbf = this.topBottomFlap * scale;
         this.ctx.rect(offsetX + d, offsetY - tbf, w, tbf);
         
         // Bottom flap (extends outward from bottom depth flap)
-        this.ctx.rect(offsetX + d, offsetY + d + h, w, tbf);
+        this.ctx.rect(offsetX + d, offsetY + d + h + d, w, tbf);
         
         this.ctx.stroke();
         this.ctx.fill();
@@ -177,20 +180,24 @@ class Boxerator {
         this.ctx.lineTo(offsetX + d + w, offsetY + d + h + d);
         
         // Side flap creases (where side flaps meet depth flaps)
-        // Left side crease (depth flap meets left side flap)
-        this.ctx.moveTo(offsetX, offsetY + d);
-        this.ctx.lineTo(offsetX, offsetY + d + h);
-        // Right side crease (depth flap meets right side flap)
-        this.ctx.moveTo(offsetX + d + w + d, offsetY + d);
-        this.ctx.lineTo(offsetX + d + w + d, offsetY + d + h);
+        // Left side crease (where left side flap meets left depth flap)
+        this.ctx.moveTo(offsetX - mt, offsetY + d);
+        this.ctx.lineTo(offsetX - mt, offsetY + d + h);
+        // Right side crease (where right side flap meets right depth flap)
+        this.ctx.moveTo(offsetX + d + w + d + mt, offsetY + d);
+        this.ctx.lineTo(offsetX + d + w + d + mt, offsetY + d + h);
         this.ctx.stroke();
+        
+
+        
+
         
         // Horizontal creases (extend across full template width)
         this.ctx.beginPath();
-        this.ctx.moveTo(offsetX - (w * 0.5), offsetY + d);
-        this.ctx.lineTo(offsetX + d + w + (w * 0.5), offsetY + d);
-        this.ctx.moveTo(offsetX - (w * 0.5), offsetY + d + h);
-        this.ctx.lineTo(offsetX + d + w + (w * 0.5), offsetY + d + h);
+        this.ctx.moveTo(offsetX - (w * 0.5) - mt, offsetY + d);
+        this.ctx.lineTo(offsetX + d + w + d + mt + (w * 0.5), offsetY + d);
+        this.ctx.moveTo(offsetX - (w * 0.5) - mt, offsetY + d + h);
+        this.ctx.lineTo(offsetX + d + w + d + mt + (w * 0.5), offsetY + d + h);
         this.ctx.stroke();
         
         // Top and bottom flap creases (where flaps meet depth flaps) - only across flap width
@@ -226,6 +233,7 @@ class Boxerator {
         const w = this.width * scale;
         const h = this.height * scale;
         const d = this.depth * scale;
+        const mt = this.materialThickness * scale;
         const tbf = this.topBottomFlap * scale;
         
         // Center label
@@ -237,34 +245,48 @@ class Boxerator {
         this.ctx.fillText(`${this.depth}"`, offsetX + d + w/2, offsetY + d/2);
         this.ctx.fillText(`${this.depth}"`, offsetX + d + w/2, offsetY + d + h + d/2);
         
-        // Left and right flap depth labels
-        this.ctx.fillText(`${this.depth}"`, offsetX + d/2, offsetY + d + h/2);
-        this.ctx.fillText(`${this.depth}"`, offsetX + d + w + d/2, offsetY + d + h/2);
+        // Left and right flap depth labels (now include material thickness) - rotated 90 degrees
+        this.ctx.save();
+        this.ctx.translate(offsetX + (d + mt)/2, offsetY + d + h/2);
+        this.ctx.rotate(-Math.PI/2);
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${this.depth + this.materialThickness}"`, 0, 0);
+        this.ctx.restore();
+        
+        this.ctx.save();
+        this.ctx.translate(offsetX + d + w + d + (d + mt)/2, offsetY + d + h/2);
+        this.ctx.rotate(-Math.PI/2);
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${this.depth + this.materialThickness}"`, 0, 0);
+        this.ctx.restore();
         
         // Top and bottom flap labels
         const tbfScaled = this.topBottomFlap * scale;
         this.ctx.fillText(`${this.topBottomFlap}"`, offsetX + d + w/2, offsetY - tbfScaled/2);
-        this.ctx.fillText(`${this.topBottomFlap}"`, offsetX + d + w/2, offsetY + d + h + tbfScaled/2);
+        this.ctx.fillText(`${this.topBottomFlap}"`, offsetX + d + w/2, offsetY + d + h + d + tbfScaled/2);
         
         // Left and right side flap labels (50% of width)
         const sideFlapWidth = this.width * 0.5;
-        this.ctx.fillText(`${sideFlapWidth}"`, offsetX - (w * 0.5)/2, offsetY + d + h/2);
+        this.ctx.fillText(`${sideFlapWidth}"`, offsetX - (w * 0.5)/2 - mt, offsetY + d + h/2);
         this.ctx.fillText(`${sideFlapWidth}"`, offsetX + d + w + (w * 0.5)/2, offsetY + d + h/2);
+        
+
     }
     
     updateStats() {
         const statsElement = document.getElementById('stats');
         if (statsElement) {
-            const totalWidth = this.width * 2 + this.depth * 2;
-            const totalHeight = this.height + this.depth * 2;
+            const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2;
+            const totalHeight = this.height + this.depth * 2 + this.topBottomFlap * 2;
             const area = totalWidth * totalHeight;
             
             statsElement.innerHTML = `
                 <strong>Box Dimensions:</strong> ${this.width}" × ${this.height}" × ${this.depth}"<br>
+                <strong>Material Thickness:</strong> ${this.materialThickness}"<br>
                 <strong>Total Template Size:</strong> ${totalWidth}" × ${totalHeight}"<br>
-                <strong>Total Area:</strong> ${area.toFixed(1)} square inches<br>
                 <strong>Side Flap Width:</strong> ${(this.width * 0.5).toFixed(1)}"<br>
-                <strong>Top/Bottom Flap Width:</strong> ${this.topBottomFlap}"
+                <strong>Top/Bottom Flap Width:</strong> ${this.topBottomFlap}" --
+                <strong>Left/Right Flap Depth:</strong> ${(this.depth + this.materialThickness).toFixed(1)}" (includes material thickness)
             `;
         }
     }
