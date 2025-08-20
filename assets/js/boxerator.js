@@ -23,10 +23,10 @@ class Boxerator {
     setupCanvas() {
         // Create canvas element
         this.canvas = document.createElement('canvas');
-        this.canvas.width = 800;
-        this.canvas.height = 600;
+        this.canvas.width = 1000; // Increased from 800
+        this.canvas.height = 800;  // Increased from 600
         this.canvas.style.border = '1px solid #ccc';
-        this.canvas.style.backgroundColor = '#f9f9f9';
+        this.canvas.style.backgroundColor = '#ffffff'; // Changed to white
         
         // Get the canvas container and append the canvas
         const container = document.getElementById('bg-canvas');
@@ -86,8 +86,9 @@ class Boxerator {
     drawBox() {
         if (!this.ctx) return;
         
-        // Clear the canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Clear the canvas and fill with white background
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
         // Set up drawing context
         this.ctx.strokeStyle = '#333';
@@ -101,8 +102,8 @@ class Boxerator {
         const totalHeight = this.height + this.depth * 2 + this.topBottomFlap * 2;
         
         const scale = Math.min(
-            (this.canvas.width - 100) / totalWidth,
-            (this.canvas.height - 100) / totalHeight
+            (this.canvas.width - 200) / totalWidth, // Increased margin for stats
+            (this.canvas.height - 200) / totalHeight // Increased margin for stats
         );
         
         // Center the drawing on the canvas
@@ -118,7 +119,10 @@ class Boxerator {
         // Draw the main box outline
         this.drawBoxOutline(offsetX, offsetY, scale);
         
-        // Update stats display
+        // Draw stats on canvas
+        this.drawStatsOnCanvas();
+        
+        // Update stats display (keep for backward compatibility)
         this.updateStats();
     }
     
@@ -227,7 +231,7 @@ class Boxerator {
     
     addLabels(offsetX, offsetY, scale) {
         this.ctx.fillStyle = '#333';
-        this.ctx.font = '12px Arial';
+        this.ctx.font = '10px Arial'; // Reduced from 12px
         this.ctx.textAlign = 'center';
         
         const w = this.width * scale;
@@ -271,6 +275,45 @@ class Boxerator {
         this.ctx.fillText(`${sideFlapWidth}"`, offsetX + d + w + (w * 0.5)/2, offsetY + d + h/2);
         
 
+    }
+    
+    drawStatsOnCanvas() {
+        // Set up text context for stats
+        this.ctx.fillStyle = '#333';
+        this.ctx.font = '14px Arial';
+        this.ctx.textAlign = 'left';
+        this.ctx.lineWidth = 1;
+        
+        // Calculate total dimensions
+        const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2;
+        const totalHeight = this.height + this.depth * 2 + this.topBottomFlap * 2;
+        const area = totalWidth * totalHeight;
+        
+        // Position stats in top-right corner with some padding
+        const statsX = this.canvas.width - 20;
+        const statsY = 30;
+        const lineHeight = 18;
+        
+        // Create semi-transparent background for stats
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        this.ctx.fillRect(statsX - 200, statsY - 15, 190, 140);
+        
+        // Draw border around stats
+        this.ctx.strokeStyle = '#ccc';
+        this.ctx.strokeRect(statsX - 200, statsY - 15, 190, 140);
+        
+        // Reset text style
+        this.ctx.fillStyle = '#333';
+        this.ctx.font = '12px Arial';
+        
+        // Draw stats text
+        this.ctx.fillText(`Box: ${this.width}" × ${this.height}" × ${this.depth}"`, statsX - 190, statsY);
+        this.ctx.fillText(`Material: ${this.materialThickness}"`, statsX - 190, statsY + lineHeight);
+        this.ctx.fillText(`Template: ${totalWidth}" × ${totalHeight}"`, statsX - 190, statsY + lineHeight * 2);
+        this.ctx.fillText(`Side Flaps: ${(this.width * 0.5).toFixed(1)}"`, statsX - 190, statsY + lineHeight * 3);
+        this.ctx.fillText(`Top/Bottom: ${this.topBottomFlap}"`, statsX - 190, statsY + lineHeight * 4);
+        this.ctx.fillText(`Depth Flaps: ${(this.depth + this.materialThickness).toFixed(1)}"`, statsX - 190, statsY + lineHeight * 5);
+        this.ctx.fillText(`Area: ${area.toFixed(1)} sq in`, statsX - 190, statsY + lineHeight * 6);
     }
     
     updateStats() {
