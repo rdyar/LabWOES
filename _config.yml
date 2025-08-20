@@ -48,6 +48,8 @@ main_nav:
     url: /calculator/
   - title: "Griderator"
     url: /grid-creator/
+  - title: "Boxerator"
+    url: /boxerator/
   - title: "Posts"
     url: /posts/
   - title: "Issues"

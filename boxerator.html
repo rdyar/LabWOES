@@ -1,0 +1,58 @@
+---
+layout: raw
+title: One Piece Folding BoxCreator
+description: Helper for finding where to cut the board for a one piece folding box
+p5: true
+---
+
+<div class="sidebar-flex">
+  <div id="sidebar">
+    <h2>Boxerator Settings</h2>
+    <p>Everything is in inches</p>
+
+    <label>Box Width</label><br />
+    <input
+      type="number"
+      id="boxWidth"
+      value="12"
+      placeholder="in inches"
+    /><br />
+    <label>Box Height</label><br />
+    <input
+      type="number"
+      id="boxHeight"
+      value="15"
+      placeholder="in inches"
+    /><br />
+    <label>Box Depth</label><br />
+    <input
+      type="number"
+      id="boxDepth"
+      value="1"
+      step=".1"
+      placeholder="in inches"
+    /><br />
+    <label>Top/Bottom Flap Width</label><br />
+    <input
+      type="number"
+      id="topBottomFlapWidth"
+      value="3"
+      step=".1"
+      placeholder="in inches"
+    /><br />
+    <label>Material Thickness</label><br />
+    <input
+      type="number"
+      step=".1"
+      id="materialThickness"
+      value=".1"
+      placeholder="in inches"
+    />
+  </div>
+  <div class="not-sidebar">
+    <p id="stats"></p>
+    <div id="bg-canvas"></div>
+  </div>
+</div>
+
+<script src="{{ site.baseurl }}/assets/js/boxerator.js"></script>
