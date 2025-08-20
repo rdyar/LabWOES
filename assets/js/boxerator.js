@@ -96,9 +96,9 @@ class Boxerator {
         this.ctx.fillStyle = '#e0e0e0';
         
         // Calculate scale factor to fit the box on canvas
-        // Total width now includes side flaps: width + (depth + materialThickness)*2 + width*0.5*2 = width*2 + (depth + materialThickness)*2
+        // Total width now includes side flaps: width + (depth + materialThickness)*2 + (width*0.5 + 0.1)*2 = width*2 + (depth + materialThickness)*2 + 0.2
         // Total height now includes top/bottom flaps: height + depth*2 + topBottomFlap*2
-        const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2;
+        const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2 + 0.2;
         const totalHeight = this.height + this.depth * 2 + this.topBottomFlap * 2;
         
         const scale = Math.min(
@@ -150,15 +150,15 @@ class Boxerator {
         // Center (main box area)
         this.ctx.rect(offsetX + d, offsetY + d, w, h);
         
-        // Left side flap (50% of width, extends outward)
-        const leftSideFlapWidth = (w * 0.5);
+        // Left side flap (50% of width + 0.1", extends outward)
+        const leftSideFlapWidth = (w * 0.5) + (0.1 * scale);
         this.ctx.rect(offsetX - leftSideFlapWidth - mt, offsetY + d, leftSideFlapWidth, h);
         
         // Fill the gap between left side flap and left depth flap
         this.ctx.rect(offsetX - mt, offsetY + d, mt, h);
         
-        // Right side flap (50% of width, extends outward)
-        const rightSideFlapWidth = (w * 0.5);
+        // Right side flap (50% of width + 0.1", extends outward)
+        const rightSideFlapWidth = (w * 0.5) + (0.1 * scale);
         this.ctx.rect(offsetX + d + w + d + mt, offsetY + d, rightSideFlapWidth, h);
         
         // Top flap (extends outward from top depth flap)
@@ -198,10 +198,10 @@ class Boxerator {
         
         // Horizontal creases (extend across full template width)
         this.ctx.beginPath();
-        this.ctx.moveTo(offsetX - (w * 0.5) - mt, offsetY + d);
-        this.ctx.lineTo(offsetX + d + w + d + mt + (w * 0.5), offsetY + d);
-        this.ctx.moveTo(offsetX - (w * 0.5) - mt, offsetY + d + h);
-        this.ctx.lineTo(offsetX + d + w + d + mt + (w * 0.5), offsetY + d + h);
+        this.ctx.moveTo(offsetX - (w * 0.5) - (0.1 * scale) - mt, offsetY + d);
+        this.ctx.lineTo(offsetX + d + w + d + mt + (w * 0.5) + (0.1 * scale), offsetY + d);
+        this.ctx.moveTo(offsetX - (w * 0.5) - (0.1 * scale) - mt, offsetY + d + h);
+        this.ctx.lineTo(offsetX + d + w + d + mt + (w * 0.5) + (0.1 * scale), offsetY + d + h);
         this.ctx.stroke();
         
         // Top and bottom flap creases (where flaps meet depth flaps) - only across flap width
@@ -269,10 +269,10 @@ class Boxerator {
         this.ctx.fillText(`${this.topBottomFlap}"`, offsetX + d + w/2, offsetY - tbfScaled/2);
         this.ctx.fillText(`${this.topBottomFlap}"`, offsetX + d + w/2, offsetY + d + h + d + tbfScaled/2);
         
-        // Left and right side flap labels (50% of width)
-        const sideFlapWidth = this.width * 0.5;
-        this.ctx.fillText(`${sideFlapWidth}"`, offsetX - (w * 0.5)/2 - mt, offsetY + d + h/2);
-        this.ctx.fillText(`${sideFlapWidth}"`, offsetX + d + w + (w * 0.5)/2, offsetY + d + h/2);
+        // Left and right side flap labels (50% of width + 0.1")
+        const sideFlapWidth = this.width * 0.5 + 0.1;
+        this.ctx.fillText(`${sideFlapWidth.toFixed(1)}"`, offsetX - (w * 0.5 + 0.1 * scale)/2 - mt, offsetY + d + h/2);
+        this.ctx.fillText(`${sideFlapWidth.toFixed(1)}"`, offsetX + d + w + (w * 0.5 + 0.1 * scale)/2, offsetY + d + h/2);
         
 
     }
@@ -285,7 +285,7 @@ class Boxerator {
         this.ctx.lineWidth = 1;
         
         // Calculate total dimensions
-        const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2;
+        const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2 + 0.2;
         const totalHeight = this.height + this.depth * 2 + this.topBottomFlap * 2;
         const area = totalWidth * totalHeight;
         
@@ -300,7 +300,7 @@ class Boxerator {
         
         // Draw border around stats
         this.ctx.strokeStyle = '#ccc';
-        this.ctx.strokeRect(statsX - 200, statsY - 15, 190, 140);
+        this.ctx.strokeRect(statsX - 200, statsY - 15, 190, 120);
         
         // Reset text style
         this.ctx.fillStyle = '#333';
@@ -308,18 +308,25 @@ class Boxerator {
         
         // Draw stats text
         this.ctx.fillText(`Box: ${this.width}" × ${this.height}" × ${this.depth}"`, statsX - 190, statsY);
-        this.ctx.fillText(`Material: ${this.materialThickness}"`, statsX - 190, statsY + lineHeight);
+        this.ctx.fillText(`Material Thickness: ${this.materialThickness}"`, statsX - 190, statsY + lineHeight);
         this.ctx.fillText(`Template: ${totalWidth}" × ${totalHeight}"`, statsX - 190, statsY + lineHeight * 2);
-        this.ctx.fillText(`Side Flaps: ${(this.width * 0.5).toFixed(1)}"`, statsX - 190, statsY + lineHeight * 3);
-        this.ctx.fillText(`Top/Bottom: ${this.topBottomFlap}"`, statsX - 190, statsY + lineHeight * 4);
-        this.ctx.fillText(`Depth Flaps: ${(this.depth + this.materialThickness).toFixed(1)}"`, statsX - 190, statsY + lineHeight * 5);
-        this.ctx.fillText(`Area: ${area.toFixed(1)} sq in`, statsX - 190, statsY + lineHeight * 6);
+        this.ctx.fillText(`Side Flaps: ${(this.width * 0.5 + 0.1).toFixed(1)}"`, statsX - 190, statsY + lineHeight * 3);
+        this.ctx.fillText(`Top/Bottom Flap: ${this.topBottomFlap}"`, statsX - 190, statsY + lineHeight * 4);
+        this.ctx.fillText(`Depth on Left/Right: ${(this.depth + this.materialThickness).toFixed(1)}"`, statsX - 190, statsY + lineHeight * 5);
+        
+        // Add instructional text at the bottom of the canvas
+        this.ctx.fillStyle = '#666';
+        this.ctx.font = '12px Arial';
+        this.ctx.textAlign = 'center';
+        
+        // Draw the instructional text at the bottom center
+        this.ctx.fillText(`Note: Left/right creases should be moved out slightly so the top and bottom flaps can come inside of it.`, this.canvas.width / 2, this.canvas.height - 20);
     }
     
     updateStats() {
         const statsElement = document.getElementById('stats');
         if (statsElement) {
-            const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2;
+            const totalWidth = this.width * 2 + (this.depth + this.materialThickness) * 2 + 0.2;
             const totalHeight = this.height + this.depth * 2 + this.topBottomFlap * 2;
             const area = totalWidth * totalHeight;
             
@@ -327,8 +334,8 @@ class Boxerator {
                 <strong>Box Dimensions:</strong> ${this.width}" × ${this.height}" × ${this.depth}"<br>
                 <strong>Material Thickness:</strong> ${this.materialThickness}"<br>
                 <strong>Total Template Size:</strong> ${totalWidth}" × ${totalHeight}"<br>
-                <strong>Side Flap Width:</strong> ${(this.width * 0.5).toFixed(1)}"<br>
-                <strong>Top/Bottom Flap Width:</strong> ${this.topBottomFlap}" --
+                <strong>Side Flap Width:</strong> ${(this.width * 0.5 + 0.1).toFixed(1)}" (includes +0.1" extension)<br>
+                <strong>Top/Bottom Flap Width:</strong> ${this.topBottomFlap}"<br>
                 <strong>Left/Right Flap Depth:</strong> ${(this.depth + this.materialThickness).toFixed(1)}" (includes material thickness)
             `;
         }
