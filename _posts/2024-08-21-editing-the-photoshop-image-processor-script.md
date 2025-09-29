@@ -3,7 +3,7 @@
 
 I've always wanted to change the way the image processor works in Photoshop by having it move the original files to their own folder and then have the saved images be back in the parent folder. After a lot of trial and error I finally got it working.
 
-The reason we want to do this is the online ordering system our [photo lab](https://prolabprints.com) uses gives us a customers originals files and then the rendered files with cropping for whatever they ordered. If we need to color correct the images we like to correct the original files and then re-render the order. We color correct using Adobe Camera Raw (ACR) and when done we run the images thru the image processor. But that outputs them to a JPEG sub folder and we would then have to drag them back up and overwrite the originals.
+The reason we want to do this is the online ordering system our [photo lab](https://qprints.com) uses gives us a customers originals files and then the rendered files with cropping for whatever they ordered. If we need to color correct the images we like to correct the original files and then re-render the order. We color correct using Adobe Camera Raw (ACR) and when done we run the images thru the image processor. But that outputs them to a JPEG sub folder and we would then have to drag them back up and overwrite the originals.
 
 You can find what I did on [bitbucket](https://bitbucket.org/fpl619/rons-image-processor/src/master/).
 
